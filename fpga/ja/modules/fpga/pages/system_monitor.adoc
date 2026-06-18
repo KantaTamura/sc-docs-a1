@@ -529,7 +529,7 @@ SEM Error Correction Count Register は、SEM Controller が行ったエラー�
 
 === SEM Heartbeat Timeout Register (Offset 0x0048)
 
-SEM Heartbeat Timeout Registe は SEM Controller が出力する Heartbeat 信号の Timeout 時間を設定するレジスタです。
+SEM Heartbeat Timeout Register は SEM Controller が出力する Heartbeat 信号の Timeout 時間を設定するレジスタです。
 AMD (旧 Xilinx) の SEM Controller (v4.1)では、Heartbeat 信号のアサート間隔は 150 クロックと規定されており、本レジスタの値は修正する必要はありません。
 
 このレジスタは Power On Reset のみでリセットされ、システムリセットでは初期化が行われません。

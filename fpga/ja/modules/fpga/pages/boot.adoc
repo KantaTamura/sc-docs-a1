@@ -11,7 +11,7 @@ Update は、軌道上での書き換えを想定しています。
 もしも、Update データに問題がある場合は、Golden に書き込まれたデータによって、Update データを復旧します。
 
 このようにひとつの NOR Flash Memory に、2 つのデータを書き込む事で、データの信頼性を確保しています。
-また、Configuraion データを格納するための Flash Memroy は 2 個搭載されており、NOR Flash Memory 2 を NOR Flash Memory 1 のミラーとする事により、信頼性の高いシステムを構築します。
+また、Configuration データを格納するための Flash Memory は 2 個搭載されており、NOR Flash Memory 2 を NOR Flash Memory 1 のミラーとする事により、信頼性の高いシステムを構築します。
 
 以下に NOR Flash Memory のデータパーティションを示します。
 
