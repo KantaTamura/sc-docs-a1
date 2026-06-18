@@ -1,3 +1,6 @@
 *~
 *.docx
 *.html
+
+# nodejs
+node_modules
