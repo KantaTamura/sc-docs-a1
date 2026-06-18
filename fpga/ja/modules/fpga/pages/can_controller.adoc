@@ -125,8 +125,8 @@ CAN Error Count Register は、CAN 通信におけるエラーの検出回数を
 エラー検出時に、カウンターをエラー要因に応じ決められた数のインクリメントを行います。
 
 Transmit Error Counter 及び Receive Error Counter は、以下の条件でリセットされます。
-* CAN Enable Register の CAN_EN ビットに "0"が書き込まれた時
-* CAN Controller が Bus OFF 状態になってから 11Bit の Recessive ビットを 128 回検出した時
+* CAN Enable Register の CAN_EN ビットに "0"が書き込まれた場合。
+* CAN Controller が Bus OFF 状態になってから 11Bit の Recessive ビットを 128 回検出した場合。
 
 .CAN Error Count Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]

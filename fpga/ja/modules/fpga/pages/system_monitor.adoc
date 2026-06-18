@@ -87,24 +87,24 @@ BHM は、センサーのデータ取得トリガを検出したタイミング�
 
 BHM は 3 つの I2C アクセスを行うことができます。
 
-センサーデバイスの初期化
+==== センサーデバイスの初期化
 
-* レジスタアクセスによりセンサーの初期化要求を発行すると、センサーの初期化のための I2C アクセスを行います
-* センサーの初期化を行うアドレスや初期化データは、RTL 設計時に Verilog のパラメータで設定できます
+* レジスタアクセスによりセンサーの初期化要求を発行すると、センサーの初期化のための I2C アクセスを行います。
+* センサーの初期化を行うアドレスや初期化データは、RTL 設計時に Verilog のパラメータで設定できます。
 
-センサーデータの取得
+==== センサーデータの取得
 
-* Hardware Scheduler からのトリガを検出すると、センサーからデータを取得するための I2C アクセスを行います
-* Current Voltage Monitor からのデータ取得は、General Purpose Timer の Hardware Interrupt Timer Output Compare Channel 2 が発生するトリガで開始されます
-* 温度センサーからのデータ取得は、General Purpose Timer の Hardware Interrupt Timer Output Compare Channel 3 が発生するトリガで開始されます
+* Hardware Scheduler からのトリガを検出すると、センサーからデータを取得するための I2C アクセスを行います。
+* Current Voltage Monitor からのデータ取得は、General Purpose Timer の Hardware Interrupt Timer Output Compare Channel 2 が発生するトリガで開始されます。
+* 温度センサーからのデータ取得は、General Purpose Timer の Hardware Interrupt Timer Output Compare Channel 3 が発生するトリガで開始されます。
 
-ソフトウェア指示による I2C アクセス
+==== ソフトウェア指示による I2C アクセス
 
-* ランタイムでセンサーの設定を変更したり、センサーが出力した Alert をクリアする目的で、簡単なレジスタアクセスで任意の I2C アクセスを行います
+* ランタイムでセンサーの設定を変更したり、センサーが出力した Alert をクリアする目的で、簡単なレジスタアクセスで任意の I2C アクセスを行います。
 
 === センサー構成
 
-BHM に接続するセンサーと、BHM によって取得されるセンサーデータ及びセンサーデータが格納されるレジスタアドレスの一覧を以下に示します
+BHM に接続するセンサーと、BHM によって取得されるセンサーデータ及びセンサーデータが格納されるレジスタアドレスの一覧を以下に示します。
 
 [cols=",,,,",options="header",]
 |===
@@ -151,17 +151,17 @@ BHM Retry Count Register の初期値はリトライ回数 "2"に設定されて
 SYSMON_BHMINT 割り込み発生時、BHM Interrupt Status Register の BHM_INITACCEND ビットが "1"にセットされているとき、デバイスの初期化が完了したと判断できます。
 この時、BHM Interrupt Status Register の Bit 12:8 の I2CERR ビットがセットされていない事を確認してください。
 I2CERR ビットがセットされている場合、手順 2 で設定した I2C 通信のリトライ回数を超えるエラーが発生した事を示します。
-. BHM Interrupt Status Register の BHM_INTACCEND ビットに "1"を書き込み、割り込みをクリアしてください
-. Hardware Interrupt Timer Control Register に、Hardware Interrupt の発生方式を設定します
+. BHM Interrupt Status Register の BHM_INTACCEND ビットに "1"を書き込み、割り込みをクリアしてください。
+. Hardware Interrupt Timer Control Register に、Hardware Interrupt の発生方式を設定します。
 レジスタの設定は、必ず次の通りに設定してください。
 GPTMR_HITRUNMD ビットを Restart モード (設定値 0b0)、GPTMR_HITOPMD2/GPTMR_HITOPMD3 フィールド パルス割り込み出力 (設定値 0b10)。
 GPTMR_HITOPMD2 の設定は Current Voltage Monitor からのデータを取得するために設定する必要があり、GPTMR_HITOPMD3 の設定は温度センサーからデータを取得するために設定する必要があります。
 . Hardware Interrupt Timer Prescaler Register に、Hardware Interrupt Timer のプリスケーラーを設定します Hardware Interrupt Timer の動作クロックは 24 MHz です。 設定方法の詳細は Hardware Interrupt Timer のレジスタ設定を参照してください。
-. Hardware Interrupt Timer Output Compare Register 1 に、Hardware Interrupt Timer の周期を設定します
-. Hardware Interrupt Timer Output Compare Register 2 に、Current Voltage Monitor のセンサーデータ取得タイミングを設定します
-. Hardware Interrupt Timer Output Compare Register 3 に、温度センサーのセンサーデータ取得タイミングを設定します
-. BHM Access Control Register の MONIEN ビットを "1"にセットし、各センサーからのデータの自動取得を有効化します
-. Timer Enable Control Register の HITEN ビットを"1"に設定し、Hardware Interrupt Timer の動作を開始します
+. Hardware Interrupt Timer Output Compare Register 1 に、Hardware Interrupt Timer の周期を設定します。
+. Hardware Interrupt Timer Output Compare Register 2 に、Current Voltage Monitor のセンサーデータ取得タイミングを設定します。
+. Hardware Interrupt Timer Output Compare Register 3 に、温度センサーのセンサーデータ取得タイミングを設定します。
+. BHM Access Control Register の MONIEN ビットを "1"にセットし、各センサーからのデータの自動取得を有効化します。
+. Timer Enable Control Register の HITEN ビットを"1"に設定し、Hardware Interrupt Timer の動作を開始します。
 
 12、13 の処理が完了すると、BHM は Hardware Interrupt Timer が生成するタイミングで、センサーに対し I2C 通信し、センサーデータを取得します。
 BHM がセンサーデバイスから取得したデータは、Monitor Register に格納されます。
