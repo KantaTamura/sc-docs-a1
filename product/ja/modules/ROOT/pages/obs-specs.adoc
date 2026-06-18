@@ -6,37 +6,37 @@ SC-OBC Module A1は、基板上に搭載されるメインプロセッサとな�
 ユーザーは、FPGAに実装されるシステムのプログラムだけでなく、TRCHのプログラムを変更する事で任意のシステムを構築する事もできます。
 
 == 電源投入時の動作
-OBCに電源が投入されると、最初にTRCHのみが起動します。
+OBC に電源が投入されると、最初に TRCH のみが起動します。
 
-TRCHは OBCの基板に搭載されているセンサーから電源の状態と温度を取得し、FPGAが動作可能な条件である場合 FPGA_PWR_EN を HIGH にして、FPGAの電源を投入します。
+TRCH は OBC の基板に搭載されているセンサーから電源の状態と温度を取得し、FPGA が動作可能な条件である場合 FPGA_PWR_EN を HIGH にして、FPGA の電源を投入します。
 
-TRCHは FPGAの電源投入時に FPGAを Configurationさせるメモリを TRCH_CFG_MEM_SEL信号によって選択します。
-FPGAは電源投入後に、TRCHによって選択された Configurationメモリからデータを読み出し、Configurationを行います。
+TRCH は FPGA の電源投入時に FPGA を Configuration させるメモリを TRCH_CFG_MEM_SEL 信号によって選択します。
+FPGA は電源投入後に、TRCH によって選択された Configuration メモリからデータを読み出し、Configuration を行います。
 
 image::scobc-a1:ROOT:power_on_timing.png[scaledwidth=100%]
 
 == TRCHによる FPGAの死活監視
-TRCHは FPGAから出力される Watchdog信号 (FPGA_WATCHDOG)を監視する事によって FPGAの Configurationや ソフトウェアの動作に問題が起きた事を検知します。
+TRCH は FPGA から出力される Watchdog 信号 (FPGA_WATCHDOG)を監視する事によって FPGA の Configuration やソフトウェアの動作に問題が起きた事を検知します。
 
-TRCHが FPGAに電源を投入すると、FPGAはただちに Configurationを開始します [A]。
-Configurationが完了すると、FPGAに実装されている System Monitorの Watchdog回路により、ソフトウェアの動作に関わらず TRCHに接続される FPGA_WATCHDOG信号のトグルを開始します [B]。
-TRCHは FPGA_WATCHDOG信号が定期的にトグルし続けている事を監視する事によって、OBCの FPGAシステムが健全に動作していると判断します [C]。
+TRCH が FPGA に電源を投入すると、FPGA はただちに Configuration を開始します [A]。
+Configuration が完了すると、FPGA に実装されている System Monitor の Watchdog 回路により、ソフトウェアの動作に関わらず TRCH に接続される FPGA_WATCHDOG 信号のトグルを開始します [B]。
+TRCH は FPGA_WATCHDOG 信号が定期的にトグルし続けている事を監視する事によって、OBC の FPGA システムが健全に動作していると判断します [C]。
 
-FPGAに実装されている System Monitorは、ソフトウェアによる Software Watchdog Timerのキックが一定期間(レジスタの初期値は 128秒)行われない時、Software Watchdog Timerが満了したと判断し、FPGA_WATCHDOG信号のトグルを停止します [D]。
+FPGA に実装されている System Monitor は、ソフトウェアによる Software Watchdog Timer のキックが一定期間(レジスタの初期値は 128 秒)行われない時、Software Watchdog Timer が満了したと判断し、FPGA_WATCHDOG 信号のトグルを停止します [D]。
 
 image::scobc-a1:ROOT:watchdog_system.png[scaledwidth=100%]
 
 == システムのリブート
-TRCHは FPGAから出力される Watchdog信号と Power Cycle Request信号を監視し、必要に応じ FPGAのシステムに Power Cycleを行います。
+TRCH は FPGA から出力される Watchdog 信号と Power Cycle Request 信号を監視し、必要に応じ FPGA のシステムに Power Cycle を行います。
 
-FPGAのシステムに何らかの問題が起こり、FPGAのソフトウェアによる Software Watchdog Timerが一定期間キックされない時、Software Watchdog Timerの満了後に、FPGA_WATCHDOG信号のトグル動作が停止します。
-TRCHは FPGA_WATCHDOG信号の停止を検出すると、FPGAの電源をOFFします [A]。
+FPGA のシステムに何らかの問題が起こり、FPGA のソフトウェアによる Software Watchdog Timer が一定期間キックされない時、Software Watchdog Timer の満了後に、FPGA_WATCHDOG 信号のトグル動作が停止します。
+TRCH は FPGA_WATCHDOG 信号の停止を検出すると、FPGA の電源を OFF します [A]。
 
-TRCHは FPGAの電源を再度ONする前に、FPGAを Configurationさせるメモリを変更します [B]。
-この機能により、FPGAが再起動する時は別の Configurationメモリのデータで起動します。
-Configrationメモリの切り替え後、再度 FPGAの電源を投入する事により Power Cycleを完了します [C]。
+TRCH は FPGA の電源を再度 ON する前に、FPGA を Configuration させるメモリを変更します [B]。
+この機能により、FPGA が再起動する時は別の Configuration メモリのデータで起動します。
+Configration メモリの切り替え後、再度 FPGA の電源を投入する事により Power Cycle を完了します [C]。
 
-Configurationメモリの変更は、Watchdog機能による障害の検知時のみではなく、FPGAからの Power Cycle Request信号による再起動時も同様に起こります。
-On the Flyでの Configurationメモリの書き換え時は、次に起動する Configurationメモリの書き換えを行い、Power Cycle Requestを発行する事で、新しいデータに問題があり起動に失敗した場合、自動的に元の Configurationメモリのデータで復旧します。
+Configuration メモリの変更は、Watchdog 機能による障害の検知時のみではなく、FPGA からの Power Cycle Request 信号による再起動時も同様に起こります。
+On the Fly での Configuration メモリの書き換え時は、次に起動する Configuration メモリの書き換えを行い、Power Cycle Request を発行する事で、新しいデータに問題があり起動に失敗した場合、自動的に元の Configuration メモリのデータで復旧します。
 
 image::scobc-a1:ROOT:system_reboot.png[scaledwidth=100%]

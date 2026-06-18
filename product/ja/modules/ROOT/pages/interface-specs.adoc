@@ -3,9 +3,9 @@
 SC-OBC Module A1 Moduleのインターフェース仕様について説明します。
 
 == CON1 (IO Boardインターフェース)
-IO Boardインターフェースは、OBC Moduleと IO Boardを接続するためのインターフェースです。
-このインターフェースには Panasonic製の 0.5 mmピッチ 80ピンコネクタ(型番: AXK6S80547YG)が実装されています。
-嵌合相手となる IO Boardには、嵌合の高さ 5mm, 5.5mm, 8mmのいずれかのソケットで接続してください。
+IO Board インターフェースは、OBC Module と IO Board を接続するためのインターフェースです。
+このインターフェースには Panasonic 製の 0.5 mm ピッチ 80 ピンコネクタ(型番: AXK6S80547YG)が実装されています。
+嵌合相手となる IO Board には、嵌合の高さ 5mm, 5.5mm, 8mm のいずれかのソケットで接続してください。
 
 コネクタの位置については、形状図を参照してください。
 
@@ -102,16 +102,16 @@ IO Boardインターフェースは、OBC Moduleと IO Boardを接続するた�
 |====
 
 === 電源入力
-OBCへの電源は VIN_A, VIN_Bから入力します。
+OBC への電源は VIN_A, VIN_B から入力します。
 
 電源電圧の入力範囲は 5.0V±10%です。
 
-VIN_Aと VIN_Bは、冗長化の目的で OBC内部で別々の電源回路にて、OBC内部の電源を生成しています。
-OBCに入力する電源が 1系統しか無い場合、VIN_Aと VIN_Bにはすべて同じ電源を接続して構いません。
+VIN_A と VIN_B は、冗長化の目的で OBC 内部で別々の電源回路にて、OBC 内部の電源を生成しています。
+OBC に入力する電源が 1 系統しか無い場合、VIN_A と VIN_B にはすべて同じ電源を接続して構いません。
 
 === User IO Group 1, 2
-User IO Group 1, 2は、FPGAに接続され、ユーザーが自由に使用できる信号です。
-User IO Group 1は FPGAの Bank 34、User IO Group 2は FPGAの Bank 35を専有しています。
+User IO Group 1, 2 は、FPGA に接続され、ユーザーが自由に使用できる信号です。
+User IO Group 1 は FPGA の Bank 34、User IO Group 2 は FPGA の Bank 35 を専有しています。
 
 [width="80%",options="header"]
 |====
@@ -121,29 +121,29 @@ User IO Group 1は FPGAの Bank 34、User IO Group 2は FPGAの Bank 35を専有
 | Group 2| UIO2_(Number)| 16本| Bank 35| VDD_UIO2
 |====
 
-User IO Groupは VDD_UIO1, VDD_UIO02に任意の IO電圧を印加して使用する事ができます。
-FPGAで使用したいIOに合ったIO電圧を印加してください。
+User IO Group は VDD_UIO1, VDD_UIO02 に任意の IO 電圧を印加して使用できます。
+FPGA で使用したい IO に合った IO 電圧を印加してください。
 
-FPGAの IO電源 (VCCO)は、FPGAの電源投入シーケンスに従い投入する必要があります。
-OBC Moduleが出力する VDD_3V3信号が Highになった時のみ電圧を印加する事で、FPGAの電源シーケンスを守る事ができます。
+FPGA の IO 電源 (VCCO)は、FPGA の電源投入シーケンスに従い投入する必要があります。
+OBC Module が出力する VDD_3V3 信号が High になった時のみ電圧を印加する事で、FPGA の電源シーケンスを守る事ができます。
 
 以下の回路構成例を参考に、回路を構成してください。
-回路例は User IO Group 1の場合の例のため、User Io Group 2に適用する場合、ピン番号などを読み替えてください。
+回路例は User IO Group 1 の場合の例のため、User Io Group 2 に適用する場合、ピン番号などを読み替えてください。
 
 image::scobc-a1:ROOT:user_io_vdd33.png[scaledwidth=100%]
 
-User IOを 3.3 Vで使用する場合で、且つ IO Boardの回路の消費電流が 0.3 A未満の場合は、VDD_3V3を電源として使う事ができます。
+User IO を 3.3 V で使用する場合で、且つ IO Board の回路の消費電流が 0.3 A 未満の場合は、VDD_3V3 を電源として使う事ができます。
 
 image::scobc-a1:ROOT:user_io_vdd16.png[scaledwidth=100%]
 
-User IOを 1.6 Vで使用する場合や、IO Boardの回路の消費電流が 0.3 A以上の場合は、VDD_3V3をイネーブル信号とし、IO Board上で生成した電源を供給してください。
+User IO を 1.6 V で使用する場合や、IO Board の回路の消費電流が 0.3 A 以上の場合は、VDD_3V3 をイネーブル信号とし、IO Board 上で生成した電源を供給してください。
 
 [[hwopt]]
 === ハードウェアオプションと IOの接続関係
-User IO Group 3 及び WDOG_OUT信号は、ハードウェアオプションによって TRCHと接続するか FPGAと接続するか選択する事ができる信号です。
-接続状態は Space Cubicsからの出荷時に確定し、ソフトウェアで変更する事はできません。
+User IO Group 3 及び WDOG_OUT 信号は、ハードウェアオプションによって TRCH と接続するか FPGA と接続するか選択できる信号です。
+接続状態は Space Cubics からの出荷時に確定し、ソフトウェアで変更する事はできません。
 
-接続先が TRCHと FPGAで変わる事で、信号の電源ドメインも変わるため、IO Boardを設計する際は注意してください。
+接続先が TRCH と FPGA で変わる事で、信号の電源ドメインも変わるため、IO Board を設計する際は注意してください。
 
 [width="80%",options="header"]
 |====
@@ -158,15 +158,15 @@ User IO Group 3 及び WDOG_OUT信号は、ハードウェアオプションに�
 |====
 
 * 電源ドメイン
-** TRCH選択時: `VDD_3V3_SYS`
-** FPGA選択時: `VDD_3V3_IO`
+** TRCH 選択時: `VDD_3V3_SYS`
+** FPGA 選択時: `VDD_3V3_IO`
 
 === デバッガ接続
 
 ==== MPLAB PICkit4
-TRCHの ソフトウェアの書き込みは Microchip製 MPLAB PICkit4により行う事ができます。
+TRCH のソフトウェアの書き込みは Microchip 製 MPLAB PICkit4 により行う事ができます。
 
-MPLAB PICkit4は、OBC Moduleの以下のピンに接続してください。
+MPLAB PICkit4 は、OBC Module の以下のピンに接続してください。
 
 [width="80%",options="header"]
 |====
@@ -185,9 +185,9 @@ MPLAB PICkit4は、OBC Moduleの以下のピンに接続してください。
 image::scobc-a1:ROOT:mplab_pickit4_connect.png[scaledwidth=100%]
 
 ==== Platform Cable USB II
-FPGAの書き込みや In Circuit Debugは Xilinx製 Platform cable USB IIにより行う事ができます。
+FPGA の書き込みや In Circuit Debug は Xilinx 製 Platform cable USB II により行う事ができます。
 
-Platform cable USB IIは、OBC Moduleの以下のピンに接続してください。
+Platform cable USB II は、OBC Module の以下のピンに接続してください。
 
 [width="80%",options="header"]
 |====

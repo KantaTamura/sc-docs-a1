@@ -3,10 +3,10 @@
 OBC Moduleには、OBCのボードステータス(電源状態、温度状態)を監視する機能を搭載しています。
 
 == 電源状態監視
-OBC Moduleで生成された電源のノードには、Current and Voltage Monitorが付加されています。
-Current and Voltage Monitor ICには、TEXAS INSTRUMENTSの INA3221-Q1が採用されており、I2C Interfaceによって TRCHと FPGAからデータを読み出す事ができます。
+OBC Module で生成された電源のノードには、Current and Voltage Monitor が付加されています。
+Current and Voltage Monitor IC には、TEXAS INSTRUMENTS の INA3221-Q1 が採用されており、I2C Interface によって TRCH と FPGA からデータを読み出す事ができます。
 
-Current and Voltage Monitorの監視ノードは以下の通りです。
+Current and Voltage Monitor の監視ノードは以下の通りです。
 
 [width="80%",options="header"]
 |====
@@ -20,13 +20,13 @@ Current and Voltage Monitorの監視ノードは以下の通りです。
 | | | 3| VDD_3V3_IO
 |====
 
-Current and Voltage Monitorのアクセス方法は INA3221-Q1のデータシートを参照してください。
+Current and Voltage Monitor のアクセス方法は INA3221-Q1 のデータシートを参照してください。
 
 == 温度状態監視
-OBC Moduleには、OBCの温度状態をモニタするため 3つの温度センサーを搭載しています。
-温度センサー ICには、TEXAS INSTRUMENTSの TMQ175-Q1が採用されており、I2C Interfaceによって TRCHと FPGAからデータを読み出す事ができます。
+OBC Module には、OBC の温度状態をモニタするため 3 つの温度センサーを搭載しています。
+温度センサー IC には、TEXAS INSTRUMENTS の TMQ175-Q1 が採用されており、I2C Interface によって TRCH と FPGA からデータを読み出す事ができます。
 
-温度センサーの搭載位置と Target Addressは以下の通りです。
+温度センサーの搭載位置と Target Address は以下の通りです。
 
 image::scobc-a1:ROOT:temperature_sensor_layout.png[scaledwidth=100%]
 

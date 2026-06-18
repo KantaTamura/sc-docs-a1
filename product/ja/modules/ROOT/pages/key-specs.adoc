@@ -9,12 +9,12 @@ a|
 Xilinx Artix-7 (XC7A200T-1FBG676I)
 
 * Logic Cell: 215,360
-* CLBスライス数 (4 LUT, 8 F/F): 33,650
-* CLB最大分散RAM: 2,888 Kb
-* DSP48E1スライス: 740
+* CLB スライス数 (4 LUT, 8 F/F): 33,650
+* CLB 最大分散 RAM: 2,888 Kb
+* DSP48E1 スライス: 740
 * Block RAM: 36 Kb x 365 (18 Kb x 730)
 * CMT: 10
-* XADC: 1 (FPGAダイ温度計測用)
+* XADC: 1 (FPGA ダイ温度計測用)
 * I/O Bank: 10
 
 | メインCPU
@@ -61,7 +61,7 @@ ISO 11898-1, CAN 2.0A, CAN 2.0B 準拠
 
 | Space Communication Bus (SCBus)
 a|
-Space Cubics提案のUSBベース通信インタフェース準拠 (T.B.D.)
+Space Cubics 提案の USB ベース通信インタフェース準拠 (T.B.D.)
 
 * 12 Mb/s 対応 (USB Full-Speed)
 
@@ -72,21 +72,21 @@ Space Cubics提案のUSBベース通信インタフェース準拠 (T.B.D.)
 a|
 TRCH UART interface x 1
 
-* ハードウェアオプションによりFPGA接続へ変更可能
+* ハードウェアオプションにより FPGA 接続へ変更可能
 
 | FPGA User IO
 a|
-User IO Group 1 x 16 pin (IO電圧可変)
+User IO Group 1 x 16 pin (IO 電圧可変)
 
-User IO Group 2 x 16 pin (IO電圧可変)
+User IO Group 2 x 16 pin (IO 電圧可変)
 
-User IO Group 4 x 6 pin, Cortex-M3 JTAG兼用 (3.3V固定)
+User IO Group 4 x 6 pin, Cortex-M3 JTAG 兼用 (3.3V 固定)
 
 | TRCH User IO
 a|
-User IO Group 3 x 3 pin (3.3V固定)
+User IO Group 3 x 3 pin (3.3V 固定)
 
-* ハードウェアオプションによりFPGA接続へ変更可能
+* ハードウェアオプションにより FPGA 接続へ変更可能
 
 | 電源電圧
 | DC 5.0 V ±10%
