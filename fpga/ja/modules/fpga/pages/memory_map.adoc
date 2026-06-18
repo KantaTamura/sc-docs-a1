@@ -1,6 +1,6 @@
 = Memory Map
 
-以下に、SC-OBC-A1 FPGAのメモリマップを示します。
+以下に、SC-OBC-A1 FPGA のメモリマップを示します。
 
 .SC-OBC-A1 FPGA Memory Map
 image::MemoryMap.svg[MemoryMap]
@@ -37,9 +37,9 @@ image::MemoryMap.svg[MemoryMap]
 |- ROM Table                                    |0xE00F_F000 - 0xE00F_FFFF |
 |===
 
-SC-OBC-A1 FPGAのメモリ空間において、0x50000000〜0x5FFFFFFFは Mission Bus Systemに予約された空間です。
-このメモリ空間は、Mission Bus Systemの設計によって任意の構成に実装することができます。
-以下に示すメモリマップは、標準イメージに実装されている Mission Bus Systemのメモリマップです。
+SC-OBC-A1 FPGA のメモリ空間において、0x50000000〜0x5FFFFFFF は Mission Bus System に予約された空間です。
+このメモリ空間は、Mission Bus System の設計によって任意の構成に実装できます。
+以下に示すメモリマップは、標準イメージに実装されている Mission Bus System のメモリマップです。
 
 .SC-OBC-A1 FPGA Mission Bus System Memory Map
 image::MissionBusMemoryMap.svg[MissionBusMemoryMap]
@@ -60,21 +60,21 @@ image::MissionBusMemoryMap.svg[MissionBusMemoryMap]
 |- AMD GPIO         |0x5009_0000 - 0x5009_FFFF |
 |===
 
-CPUが使用する メインメモリーは アドレス 0x00000000にマッピングされています。
-メインメモリーは、ITCM (Instruction Tightly Coupled Memory)と HRMEM (High Reliability Memory)を選択する事ができます。
-ITCMと HRMEMの切り替えは Code Memory Select Registerの ITCMENビットによって行います。
+CPU が使用するメインメモリーはアドレス 0x00000000 にマッピングされています。
+メインメモリーは、ITCM (Instruction Tightly Coupled Memory)と HRMEM (High Reliability Memory)を選択できます。
+ITCM と HRMEM の切り替えは Code Memory Select Register の ITCMEN ビットによって行います。
 
-ITCMは FPGAの Block RAMで構成されています。 このメモリは FPGAの Configurationデータ (Bit Streamデータ)にプログラムを格納する事で、FPGAの Configuration後 すぐに CPUが動作します。
-HRMEMは On Boardの SRAMで構成されています。
+ITCM は FPGA の Block RAM で構成されています。 このメモリは FPGA の Configuration データ (Bit Stream データ)にプログラムを格納する事で、FPGA の Configuration 後すぐに CPU が動作します。
+HRMEM は On Board の SRAM で構成されています。
 このメモリを使用する場合には、電源の投入後にデータを書き込んで使用する必要があります。
-HRMEMは IPコアの内部に SRAMのデータが放射線によって破壊された場合に訂正する仕組みを実装しているため、通常はこのメモリを使って動作します。
+HRMEM は IP コアの内部に SRAM のデータが放射線によって破壊された場合に訂正する仕組みを実装しているため、通常はこのメモリを使って動作します。
 
 .CPU Main Memory構成
 image::itcm_hrmem_select.png[itcm_hrmem_select]
 
-FPGAの Configuration後、アドレス 0x00000000に ITCMがマッピングされています。
-ITCMには プログラムローダーを書き込んで使用します。
-プログラムローダーは NOR Flash Memoryに書き込まれているプログラムを HRMEMに転送するために使用します。
-HRMEMのアドレス 0x60000000番地は、アドレス 0x00000000番地のミラーとなっており、プログラムローダーによって 0x60000000に書き込まれたデータは、メインメモリーを HRMEMに切り替えた時に 0x00000000から読み出す事ができます。
-プログラムローダーが HRMEMへのプログラムを書き込む最後の手順として、Code Memory Select Registerの ITCMENビットを 0に書き込みます。
-ITCMENビットの書き込みにより、メインメモリーを切り替えるとシステムにリセットがかかり、切り替えたメモリのアドレス 0x00000000から書き込まれたデータで CPUが動作します。
+FPGA の Configuration 後、アドレス 0x00000000 に ITCM がマッピングされています。
+ITCM にはプログラムローダーを書き込んで使用します。
+プログラムローダーは NOR Flash Memory に書き込まれているプログラムを HRMEM に転送するために使用します。
+HRMEM のアドレス 0x60000000 番地は、アドレス 0x00000000 番地のミラーとなっており、プログラムローダーによって 0x60000000 に書き込まれたデータは、メインメモリーを HRMEM に切り替えた時に 0x00000000 から読み出す事ができます。
+プログラムローダーが HRMEM へのプログラムを書き込む最後の手順として、Code Memory Select Register の ITCMEN ビットを 0 に書き込みます。
+ITCMEN ビットの書き込みにより、メインメモリーを切り替えるとシステムにリセットがかかり、切り替えたメモリのアドレス 0x00000000 から書き込まれたデータで CPU が動作します。

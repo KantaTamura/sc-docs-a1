@@ -13,7 +13,7 @@ Internal I2Cの制御は、System Monitorに搭載されている Board Health M
 Board Health Monitor機能に関する詳細は、「System Monitor」の章を参照してください。
 
 == レジスタ詳細
-I2C Controllerは以下のベースアドレスに配置されています。
+I2C Controller は以下のベースアドレスに配置されています。
 
 .I2C Controller Base Address
 [cols=",,",options="header",]
@@ -52,10 +52,10 @@ I2C Controllerは以下のベースアドレスに配置されています。
 
 === I2C Enable Register (Offset 0x0000)
 
-I2C Enable Registerは、I2C ControllerのEnable設定を行うレジスタです。
+I2C Enable Register は、I2C Controller の Enable 設定を行うレジスタです。
 
-EnableがOFFの時は、I2C ControllerはI2C Busに接続される FPGAのBufferを HiZ状態とし、一切の送受信を行いません。
-EnableをONにすると、I2C BusがIdle状態の時に送受信が可能となります。
+Enable が OFF の時は、I2C Controller は I2C Bus に接続される FPGA の Buffer を HiZ 状態とし、一切の送受信を行いません。
+Enable を ON にすると、I2C Bus が Idle 状態の時に送受信が可能となります。
 
 .I2C Enable Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -69,23 +69,23 @@ EnableをONにすると、I2C BusがIdle状態の時に送受信が可能とな�
 
 === I2C TX FIFO Register (Offset 0x0004)
 
-I2C TX FIFO Registerは、I2Cデバイスへ送信するデータや、送受信データのフォーマットを設定するためのレジスタです。
+I2C TX FIFO Register は、I2C デバイスへ送信するデータや、送受信データのフォーマットを設定するためのレジスタです。
 
 レジスタに書き込む値は、転送状況によって変わります。
 
-転送開始の 1 Byte目は、I2CM_TXDATAフィールドの ビット7:1に 通信する I2Cデバイスのデバイスアドレスを書き込み、ビット0に R/W情報として 次の転送サイクルが 送信モードの場合は"0", 受信モードの場合は"1"を書き込みます。
-ここで書き込まれた 8ビットのデータは MSB側から順にそのまま I2Cバスに出力されます。
+転送開始の 1 Byte 目は、I2CM_TXDATA フィールドのビット 7:1 に通信する I2C デバイスのデバイスアドレスを書き込み、ビット 0 に R/W 情報として次の転送サイクルが送信モードの場合は"0", 受信モードの場合は"1"を書き込みます。
+ここで書き込まれた 8 ビットのデータは MSB 側から順にそのまま I2C バスに出力されます。
 
-1 Byte目にビット0に書き込まれた R/W情報によって、送信モード(R/W: 0)となる場合、2 Byte目以降は I2CM_TXDATAに転送データを書き込みます。
-送信モードの場合、I2CM_TXDATAの書き込みと同時に I2CM_STOPか I2CM_RESTARTが "1"に書き込まれるまで転送が継続します。
-I2CM_TXDATAと共に I2CM_STOPが"1"に書き込まれた場合は、データ送信の完了後に STOP Conditionが送信され、I2CM_TXDATAと共に I2CM_RESTARTが"1"に書き込まれた場合は、データ送信の完了後に Repeated START Conditionが送信されます。
-この状態になると、次の送信は 1 Byte目の送信状態に戻ります。
+1 Byte 目にビット 0 に書き込まれた R/W 情報によって、送信モード(R/W: 0)となる場合、2 Byte 目以降は I2CM_TXDATA に転送データを書き込みます。
+送信モードの場合、I2CM_TXDATA の書き込みと同時に I2CM_STOP か I2CM_RESTART が "1"に書き込まれるまで転送が継続します。
+I2CM_TXDATA と共に I2CM_STOP が"1"に書き込まれた場合は、データ送信の完了後に STOP Condition が送信され、I2CM_TXDATA と共に I2CM_RESTART が"1"に書き込まれた場合は、データ送信の完了後に Repeated START Condition が送信されます。
+この状態になると、次の送信は 1 Byte 目の送信状態に戻ります。
 
-1 Byte目にビット0に書き込まれた R/W情報によって、受信モード(R/W: 1)となる場合、2 Byte目の I2CM_TXDATAには受信データの Byte数を書き込みます。
-この時、書き込む受信データの Byte数は、「実際に受信する Byte数 - 1」の値を設定します。
-また、最終Byteとなるデータの受信後に STOP Conditionまたは Repeated START Conditionを送信するため、I2CM_STOPか I2CM_RESTARTのどちらかのビットを"1"にセットします。
+1 Byte 目にビット 0 に書き込まれた R/W 情報によって、受信モード(R/W: 1)となる場合、2 Byte 目の I2CM_TXDATA には受信データの Byte 数を書き込みます。
+この時、書き込む受信データの Byte 数は、「実際に受信する Byte 数 - 1」の値を設定します。
+また、最終 Byte となるデータの受信後に STOP Condition または Repeated START Condition を送信するため、I2CM_STOP か I2CM_RESTART のどちらかのビットを"1"にセットします。
 
-本レジスタの設定については「I2C通信操作手順例」も参照してください。
+本レジスタの設定については「I2C 通信操作手順例」も参照してください。
 
 .I2C TX FIFO Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -99,10 +99,10 @@ I2CM_TXDATAと共に I2CM_STOPが"1"に書き込まれた場合は、データ�
 
 === I2C RX FIFO Register (Offset 0x0008)
 
-I2C RX FIFO Registerは、I2Cデバイスから受信したデータを読み出すためのレジスタです。
+I2C RX FIFO Register は、I2C デバイスから受信したデータを読み出すためのレジスタです。
 
-I2Cデバイスから受信データは RX FIFOに格納されます。
-RX FIFOは 16 Byte実装されており、このレジスタを読み出す事で RX FIFOに格納されたデータを 1 Byteずつデータを読み出す事ができます。
+I2C デバイスから受信データは RX FIFO に格納されます。
+RX FIFO は 16 Byte 実装されており、このレジスタを読み出す事で RX FIFO に格納されたデータを 1 Byte ずつデータを読み出す事ができます。
 
 .I2C RX FIFO Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -114,8 +114,8 @@ RX FIFOは 16 Byte実装されており、このレジスタを読み出す事�
 
 === I2C Bus Status Register (Offset 0x000C)
 
-I2C Bus Status Registerは、I2C Busのステータスを確認するためのレジスタです。
-I2C_SELFBUSY,I2C_OTHERBUSYビットがともに"0"を示す時、I2C BusがIdle状態であることを示します。
+I2C Bus Status Register は、I2C Bus のステータスを確認するためのレジスタです。
+I2C_SELFBUSY,I2C_OTHERBUSY ビットがともに"0"を示す時、I2C Bus が Idle 状態であることを示します。
 
 .I2C Bus Status Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -128,8 +128,8 @@ I2C_SELFBUSY,I2C_OTHERBUSYビットがともに"0"を示す時、I2C BusがIdle�
 
 === I2C Interrupt Status Register (Offset: 0x0010)
 
-I2C Interrupt Status Registerは、I2C Controllerの割り込みステータスレジスタです。
-それぞれのビットは"1"をセットすると、割り込みをクリアする事ができます。
+I2C Interrupt Status Register は、I2C Controller の割り込みステータスレジスタです。
+それぞれのビットは"1"をセットすると、割り込みをクリアできます。
 
 .I2C Interrupt Status Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -153,9 +153,9 @@ ACK Errorを検出すると、I2C Controllerは以降のデータ送信を停止
 
 === I2C Interrupt Enable Register (Offset: 0x0014)
 
-I2C Interrupt Enable Registerは、I2C Controllerの割り込みイベントを割り込み信号に通知する設定を行うためのレジスタです。
+I2C Interrupt Enable Register は、I2C Controller の割り込みイベントを割り込み信号に通知する設定を行うためのレジスタです。
 
-Interrupt Enable Registerのビットが "1"にセットした時、その割り込み要因に対応する Interrupt Status Registerのビットが "1"にセットされた時、レベル割り込みが出力します。
+Interrupt Enable Register のビットが "1"にセットした時、その割り込み要因に対応する Interrupt Status Register のビットが "1"にセットされた時、レベル割り込みが出力します。
 
 .I2C Interrupt Enable Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -177,7 +177,7 @@ Interrupt Enable Registerのビットが "1"にセットした時、その割り
 
 === I2C FIFO Status Register (Offset 0x0018)
 
-I2C FIFO Status Registerは、TX FIFO/RX FIFOに格納されているデータ量を読み出すためのレジスタです。
+I2C FIFO Status Register は、TX FIFO/RX FIFO に格納されているデータ量を読み出すためのレジスタです。
 
 .I2C FIFO Status Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -191,8 +191,8 @@ I2C FIFO Status Registerは、TX FIFO/RX FIFOに格納されているデータ�
 
 === I2C FIFO Reset Register (Offset 0x001C)
 
-I2C FIFO Reset Registerは、TX FIFO/RX FIFOのリセットを行うためのレジスタです。
-何らかの理由によりFIFOのクリアを行いたい場合にこのレジスタを使用します。
+I2C FIFO Reset Register は、TX FIFO/RX FIFO のリセットを行うためのレジスタです。
+何らかの理由により FIFO のクリアを行いたい場合にこのレジスタを使用します。
 
 .I2C FIFO Reset Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -206,7 +206,7 @@ I2C FIFO Reset Registerは、TX FIFO/RX FIFOのリセットを行うためのレ
 
 === I2C FIFO Threshold Level Setting Register (Offset 0x0020)
 
-I2C FIFO Threshold Level Registerは、TX FIFO/RX FIFOのデータ量に応じた割り込み出力を行うための設定レジスタです。
+I2C FIFO Threshold Level Register は、TX FIFO/RX FIFO のデータ量に応じた割り込み出力を行うための設定レジスタです。
 
 .I2C FIFO Threshold Level Setting Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -220,7 +220,7 @@ I2C FIFO Threshold Level Registerは、TX FIFO/RX FIFOのデータ量に応じ�
 
 === I2C SCL Timeout Setting Register (Offset 0x0024)
 
-I2C SCL Timeout Setting Registerは、SCL Timeout割り込み発生させるための SCL Timeout時間を設定するレジスタです。
+I2C SCL Timeout Setting Register は、SCL Timeout 割り込み発生させるための SCL Timeout 時間を設定するレジスタです。
 
 .I2C SCL Timeout Setting Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -232,8 +232,8 @@ I2C SCL Timeout Setting Registerは、SCL Timeout割り込み発生させるた�
 
 ==== I2C START Hold Timing Setting Register (Offset 0x0030)
 
-I2C START Hold Timing Setting Registerは、I2C規格における START/Repeated START Conditionの Hold時間を設定するためのレジスタです。
-このレジスタは、I2C Enable RegisterのI2CM_ENビットが"0"の時のみ書き込みが可能です。
+I2C START Hold Timing Setting Register は、I2C 規格における START/Repeated START Condition の Hold 時間を設定するためのレジスタです。
+このレジスタは、I2C Enable Register の I2CM_EN ビットが"0"の時のみ書き込みが可能です。
 
 .I2C START Hold Timing Setting Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -243,19 +243,19 @@ I2C START Hold Timing Setting Registerは、I2C規格における START/Repeated
 |15:0  |I2CM_THDSTA |I2C START Hold Time |START ConditionのHold時間を設定するフィールドです。このフィールドはシステムクロックのサイクル数によってタイミングを設定します。|R/W
 |===
 
-レジスタ設定によるSTART Hold Time(tHDSTA)は、次の式で計算できます。
+レジスタ設定による START Hold Time(tHDSTA)は、次の式で計算できます。
 
 [stem]
 ++++
 tHDSTA [s] = System\ Clock\ period\ [s] \times \left(I2CM\_THDSTA +1\right)
 ++++
 
-このレジスタの設定を行う場合は「I2Cタイミングパラメータの設定」も参照してください。
+このレジスタの設定を行う場合は「I2C タイミングパラメータの設定」も参照してください。
 
 === I2C STOP Setup Timing Setting Register (Offset 0x0034)
 
-I2C STOP Setup Timing Setting Registerは、I2C規格における STOP ConditionのSetup時間を設定するためのレジスタです。
-このレジスタは、I2C Enable RegisterのI2CM_ENビットが"0"の時のみ書き込みが可能です。
+I2C STOP Setup Timing Setting Register は、I2C 規格における STOP Condition の Setup 時間を設定するためのレジスタです。
+このレジスタは、I2C Enable Register の I2CM_EN ビットが"0"の時のみ書き込みが可能です。
 
 .I2C STOP Setup Timing Setting Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -265,23 +265,23 @@ I2C STOP Setup Timing Setting Registerは、I2C規格における STOP Condition
 |15:0  |I2CM_TSUSTO |I2C STOP Setup Time |STOP ConditionのSetup時間を設定するフィールドです。このフィールドはシステムクロックのサイクル数によってタイミングを設定します。|R/W
 |===
 
-レジスタ設定によるSTOP Setup Time(tSUSTO)は、次の式で計算できます。
+レジスタ設定による STOP Setup Time(tSUSTO)は、次の式で計算できます。
 
 [stem]
 ++++
 tSUSTO [s] = System\ Clock\ period\ [s] \times \left(I2CM\_TSUSTO +1\right)
 ++++
 
-マルチマスター構成となる場合、または、クロックストレッチ機能を持った I2Cデバイスと接続して通信する場合、このレジスタは"0x3"以上に設定してください。
+マルチマスター構成となる場合、または、クロックストレッチ機能を持った I2C デバイスと接続して通信する場合、このレジスタは"0x3"以上に設定してください。
 
-このレジスタの設定を行う場合は「I2Cタイミングパラメータの設定」も参照してください。
+このレジスタの設定を行う場合は「I2C タイミングパラメータの設定」も参照してください。
 
 === I2C Repeated START Setup Timing Setting Register (Offset 0x0038)
 
-I2C Repeated START Setup Timing Setting Registerは、I2C規格における
-Repeated START ConditionのSetup時間を設定するためのレジスタです。
+I2C Repeated START Setup Timing Setting Register は、I2C 規格における
+Repeated START Condition の Setup 時間を設定するためのレジスタです。
 このレジスタは、I2C Enable
-RegisterのI2CM_ENビットが"0"の時のみ書き込みが可能です。
+Register の I2CM_EN ビットが"0"の時のみ書き込みが可能です。
 
 .I2C Repeated START Setup Timing Setting Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -291,21 +291,21 @@ RegisterのI2CM_ENビットが"0"の時のみ書き込みが可能です。
 |15:0  |I2CM_TSUSTA |I2C Repeated START Setup Time |Repeated START ConditionのSetup時間を設定するフィールドです。このフィールドはシステムクロックのサイクル数によってタイミングを設定します。|R/W
 |===
 
-レジスタ設定によるRepeated START Setup Time(tSUSTA)は、次の式で計算できます。
+レジスタ設定による Repeated START Setup Time(tSUSTA)は、次の式で計算できます。
 
 [stem]
 ++++
 tSUSTA [s] = System\ Clock\ period\ [s] \times \left(I2CM\_TSUSTA +1\right)
 ++++
 
-マルチマスター構成となる場合、または、クロックストレッチ機能を持った I2Cデバイスと接続して通信する場合、このレジスタは 0x3以上に設定してください。
+マルチマスター構成となる場合、または、クロックストレッチ機能を持った I2C デバイスと接続して通信する場合、このレジスタは 0x3 以上に設定してください。
 
-このレジスタの設定を行う場合は「I2Cタイミングパラメータの設定」も参照してください。
+このレジスタの設定を行う場合は「I2C タイミングパラメータの設定」も参照してください。
 
 ==== I2C Clock High Timing Setting Register (Offset 0x003C)
 
-I2C Clock High Timing Setting Registerは、I2C規格における SCLのHigh時間を設定するレジスタです。
-このレジスタは、I2C Enable RegisterのI2CM_ENビットが"0"の時のみ書き込みが可能です。
+I2C Clock High Timing Setting Register は、I2C 規格における SCL の High 時間を設定するレジスタです。
+このレジスタは、I2C Enable Register の I2CM_EN ビットが"0"の時のみ書き込みが可能です。
 
 .I2C Clock High Timing Setting Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -315,7 +315,7 @@ I2C Clock High Timing Setting Registerは、I2C規格における SCLのHigh時�
 |15:0  |I2CM_THIGH |I2C SCL High period |SCLのHigh時間を設定するフィールドです。このフィールドはシステムクロックのサイクル数によってタイミングを設定します。 |R/W
 |===
 
-レジスタ設定によるSCLのHigh時間(tHIGH)は、次の式で計算できます。
+レジスタ設定による SCL の High 時間(tHIGH)は、次の式で計算できます。
 
 [stem]
 ++++
@@ -323,12 +323,12 @@ tHIGH\ [s] = System\ Clock\ period\ [s] \times \left(I2CM\_THIGH +1\right)
 ++++
 
 このレジスタは必ず"0x4"以上に設定する必要があります。
-このレジスタの設定を行う場合は「I2Cタイミングパラメータの設定」も参照してください。
+このレジスタの設定を行う場合は「I2C タイミングパラメータの設定」も参照してください。
 
 === I2C Data Hold Timing Setting Register (Offset 0x0040)
 
-I2C Data Hold Timing Setting Registerは、I2C規格におけるデータのHold時間を設定するためのレジスタです。
-このレジスタは、I2C Enable RegisterのI2CM_ENビットが"0"の時のみ書き込みが可能です。
+I2C Data Hold Timing Setting Register は、I2C 規格におけるデータの Hold 時間を設定するためのレジスタです。
+このレジスタは、I2C Enable Register の I2CM_EN ビットが"0"の時のみ書き込みが可能です。
 
 .I2C Data Hold Timing Setting Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -338,21 +338,21 @@ I2C Data Hold Timing Setting Registerは、I2C規格におけるデータのHold
 |15:0  |I2CM_THDDAT |I2C Data Hold Time |データのHold時間を設定するフィールドです。このフィールドはシステムクロックのサイクル数によって設定します。|R/W
 |===
 
-レジスタ設定によるData Hold Time(tHDDAT)は、次の式で計算できます。
+レジスタ設定による Data Hold Time(tHDDAT)は、次の式で計算できます。
 
 [stem]
 ++++
 tHDDAT\ [s] = System\ Clock\ period\ [s] \times \left(I2CM\_THDDAT +1\right)
 ++++
 
-マルチマスター構成となる場合、または、クロックストレッチ機能を持った I2Cデバイスと接続して通信する場合、このレジスタは"0x3"以上に設定してください。
+マルチマスター構成となる場合、または、クロックストレッチ機能を持った I2C デバイスと接続して通信する場合、このレジスタは"0x3"以上に設定してください。
 
-このレジスタの設定を行う場合は「I2Cタイミングパラメータの設定」も参照してください。
+このレジスタの設定を行う場合は「I2C タイミングパラメータの設定」も参照してください。
 
 === I2C Data Setup Timing Setting Register (Offset 0x0044)
 
-I2C Data Setup Timing Setting Registerは、I2C規格におけるデータのSetup時間を設定するためのレジスタです。
-このレジスタは、I2C Enable RegisterのI2CM_ENビットが"0"の時のみ書き込みが可能です。
+I2C Data Setup Timing Setting Register は、I2C 規格におけるデータの Setup 時間を設定するためのレジスタです。
+このレジスタは、I2C Enable Register の I2CM_EN ビットが"0"の時のみ書き込みが可能です。
 
 .I2C Data Setup Timing Setting Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -362,26 +362,26 @@ I2C Data Setup Timing Setting Registerは、I2C規格におけるデータのSet
 |15:0  |I2CM_TSUDAT |I2C Data Setup Time |データのSetup時間を設定するフィールドです。このフィールドはシステムクロックのサイクル数によって設定します。 |R/W
 |===
 
-レジスタ設定によるData Setup Time(tSUDAT)は、次の式で計算できます。
+レジスタ設定による Data Setup Time(tSUDAT)は、次の式で計算できます。
 
 [stem]
 ++++
 tSUDAT\ [s] = System\ Clock\ period\ [s] \times \left(I2CM\_TSUDAT +1\right)
 ++++
 
-また、SCLのLow時間(tLOW)は、Data Hold TimeとData Setup Timeの和により決定されます。
+また、SCL の Low 時間(tLOW)は、Data Hold Time と Data Setup Time の和により決定されます。
 
 [stem]
 ++++
 tLOW\ [s] = tHDDAT\ [s] + tSUDAT\ [s]
 ++++
 
-このレジスタの設定を行う場合は「I2Cタイミングパラメータの設定」も参照してください。
+このレジスタの設定を行う場合は「I2C タイミングパラメータの設定」も参照してください。
 
 === I2C Bus Free Timing Setting Register (Offset 0x0048)
 
-I2C Bus Free Timing Setting Registerは、I2C規格における ConditionとSTART Condition間のBus開放時間を設定するためのレジスタです。
-このレジスタは、I2C Enable RegisterのI2CM_ENビットが"0"の時のみ書き込みが可能です。
+I2C Bus Free Timing Setting Register は、I2C 規格における Condition と START Condition 間の Bus 開放時間を設定するためのレジスタです。
+このレジスタは、I2C Enable Register の I2CM_EN ビットが"0"の時のみ書き込みが可能です。
 
 .I2C Bus Free Timing Setting Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -391,20 +391,20 @@ I2C Bus Free Timing Setting Registerは、I2C規格における ConditionとSTAR
 |15:0  |I2CM_TBUF |I2C Bus Free Time |I2C Busの開放時間を設定するフィールドです。このフィールドはシステムクロックのサイクル数によって設定します。 |R/W
 |===
 
-レジスタ設定によるBus Free Time(tBUF)は、次の式で計算できます。
+レジスタ設定による Bus Free Time(tBUF)は、次の式で計算できます。
 
 [stem]
 ++++
 tBUF\ [s] = System\ Clock\ period\ [s] \times \left(I2CM\_TBUF +1\right)
 ++++
 
-このレジスタの設定を行う場合は「I2Cタイミングパラメータの設定」も参照してください。
+このレジスタの設定を行う場合は「I2C タイミングパラメータの設定」も参照してください。
 
 === I2C Bus Sampling Timing Setting Register (Offset 0x004C)
 
-I2C Bus Sampling Timing Setting Registerは、受信データのサンプリングタイミングを設定するためのレジスタです。
+I2C Bus Sampling Timing Setting Register は、受信データのサンプリングタイミングを設定するためのレジスタです。
 
-SCLの立ち上がりタイミングを起点として、このレジスタに設定した遅延時間後に SDA信号のサンプリングを行います。 このレジスタは、I2C Enable RegisterのI2CM_ENビットが"0"の時のみ書き込みが可能です。
+SCL の立ち上がりタイミングを起点として、このレジスタに設定した遅延時間後に SDA 信号のサンプリングを行います。 このレジスタは、I2C Enable Register の I2CM_EN ビットが"0"の時のみ書き込みが可能です。
 
 .I2C Bus Sampling Timing Setting Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -414,7 +414,7 @@ SCLの立ち上がりタイミングを起点として、このレジスタに�
 |15:0  |I2CM_SMPLDLY |I2C Sampling Delay |SDAをサンプリングするタイミングを設定するフィールドです。このフィールドはシステムクロックのサイクル数によって設定します。|R/W
 |===
 
-レジスタ設定によるSDAのサンプリング遅延時間は、次の式で計算できます。
+レジスタ設定による SDA のサンプリング遅延時間は、次の式で計算できます。
 
 [stem]
 ++++
@@ -423,10 +423,10 @@ SDA Sampling Delay\ [s] = System\ Clock\ period\ [s] \times I2CM\_SMPLDLY
 
 === I2C Bus Filter Setting Register (Offset 0x0050)
 
-I2C Bus Filter Setting Registerは、I2C Bus信号の入力信号のフィルタ時間を設定するためのレジスタです。
+I2C Bus Filter Setting Register は、I2C Bus 信号の入力信号のフィルタ時間を設定するためのレジスタです。
 
-I2C Busから入力される信号は、このレジスタで設定された値で動作するデジタルフィルターを介して後段に信号を伝えます。
-フィルタ時間は、I2C規格で定められる「SDA信号と SCL信号の立ち上がり時間 (tr)」、「SDA信号と SCL信号の立ち下がり時間 (tf)」値を元に設定します。
+I2C Bus から入力される信号は、このレジスタで設定された値で動作するデジタルフィルターを介して後段に信号を伝えます。
+フィルタ時間は、I2C 規格で定められる「SDA 信号と SCL 信号の立ち上がり時間 (tr)」、「SDA 信号と SCL 信号の立ち下がり時間 (tf)」値を元に設定します。
 
 .I2C Bus Filter Setting Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -436,7 +436,7 @@ I2C Busから入力される信号は、このレジスタで設定された値�
 |7:0  |I2CM_FLTCYC |I2C Filtering Time |SDA, SCL信号のレベルが 遷移するときのフィルタリング時間を設定するフィールドです。このフィールドはシステムクロックのサイクル数によって設定します。|R/W
 |===
 
-I2CM_FLTCYCの値は、以下の計算で算出される値を設定します。
+I2CM_FLTCYC の値は、以下の計算で算出される値を設定します。
 計算結果の小数点以下は切り上げた値を設定してください。
 
 [stem]
@@ -444,11 +444,11 @@ I2CM_FLTCYCの値は、以下の計算で算出される値を設定します。
 I2CM\_FLTCYC = System Clock Frequency [MHz] \times Filter Timing [us] - 1
 ++++
 
-このレジスタの設定を行う場合は「I2Cタイミングパラメータの設定」も参照してください。
+このレジスタの設定を行う場合は「I2C タイミングパラメータの設定」も参照してください。
 
 === I2C Controller IP Version Register (Offset: 0xF000)
 
-I2C Controller IPコアバージョンの管理レジスタです。
+I2C Controller IP コアバージョンの管理レジスタです。
 
 .I2C Controller IP Version Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -461,45 +461,45 @@ I2C Controller IPコアバージョンの管理レジスタです。
 
 == I2Cアクセス手順
 
-この章では、I2C Controllerを使用するための、レジスタの制御手順を説明します。
+この章では、I2C Controller を使用するための、レジスタの制御手順を説明します。
 
 === 初期設定操作手順例
 
-I2C Controllerの初期設定の手順について説明します。
+I2C Controller の初期設定の手順について説明します。
 
 .初期設定フロー
 image::i2cm_init_config_seq.svg[i2cm_init_config_seq]
 
-I2C ControllerのTiming Parameterは、システムクロックが 48 MHz、Standard-mode(ビットレート:100Kb/s)でのI2C通信に合わせて初期設定がされています。システムクロックが 48 MHz、Fast-mode(ビットレート:400Kb/s)で通信を行う場合はタイミングパラメータの設定変更を省略し、手順例8から設定を進めることが出来ます。それ以外の場合は、タイミングパラメータの設定変更(手順例1～7)を行う必要があります。
+I2C Controller の Timing Parameter は、システムクロックが 48 MHz、Standard-mode(ビットレート:100Kb/s)での I2C 通信に合わせて初期設定がされています。システムクロックが 48 MHz、Fast-mode(ビットレート:400Kb/s)で通信を行う場合はタイミングパラメータの設定変更を省略し、手順例 8 から設定を進めることが出来ます。それ以外の場合は、タイミングパラメータの設定変更(手順例 1～7)を行う必要があります。
 
-手順例 1〜8のタイミングパラメータの設定順序に制限は無いため、この手順と異なる順序で設定しても問題ありません。タイミングパラメータ設定の詳細や、各モードにおける設定例については「I2Cタイミングパラメータの設定」を参照してください。
+手順例 1〜8 のタイミングパラメータの設定順序に制限は無いため、この手順と異なる順序で設定しても問題ありません。タイミングパラメータ設定の詳細や、各モードにおける設定例については「I2C タイミングパラメータの設定」を参照してください。
 
-. I2C START Hold Timing Setting Registerの設定を行います。
-. I2C STOPSetup Timing Setting Registerの設定を行います。
-. I2C Repeated START Setup Timing Setting Registerの設定を行います。
-. I2C Clock High Timing Setting Registerの設定を行います。
-. I2C Data Hold Timing Setting Registerの設定を行います。
-. I2C Data Setup Timing Setting Registerの設定を行います。
-. I2C Bus Free Timing Setting Registerの設定を行います。
-. I2C Bus Filter Setting Registerの設定を行います。
-. I2C Interrupt Enable Registerの使用する割り込みステータスのイネーブルビットを"1"に設定します。
-. I2C Enable RegisterのI2CM_ENビットを"1"に設定し、I2C Controllerを有効化します。
+. I2C START Hold Timing Setting Register の設定を行います。
+. I2C STOPSetup Timing Setting Register の設定を行います。
+. I2C Repeated START Setup Timing Setting Register の設定を行います。
+. I2C Clock High Timing Setting Register の設定を行います。
+. I2C Data Hold Timing Setting Register の設定を行います。
+. I2C Data Setup Timing Setting Register の設定を行います。
+. I2C Bus Free Timing Setting Register の設定を行います。
+. I2C Bus Filter Setting Register の設定を行います。
+. I2C Interrupt Enable Register の使用する割り込みステータスのイネーブルビットを"1"に設定します。
+. I2C Enable Register の I2CM_EN ビットを"1"に設定し、I2C Controller を有効化します。
 
 ==== I2Cタイミングパラメータの設定
 
-I2C ControllerによるI2C通信タイミングは、以下のレジスタ設定により決まります。
+I2C Controller による I2C 通信タイミングは、以下のレジスタ設定により決まります。
 
-* I2C START Hold Timing Setting Register: START ConditionおよびRepeatedSTART ConditionのHold時間
-* I2C STOP Setup Timing Setting Register: STOP ConditionのSetup時間
-* I2C Repeated START Setup Timing Setting Register: Repeated START ConditionのSetup時間
-* I2C Clock High Timing Setting Register: I2Cクロック(SCL)のHigh期間
-* I2C Data Hold Timing Setting Register: I2Cデータ(SDA)のHold時間
-* I2C Data Setup Timing Setting Register: I2Cデータ(SDA)のSetup時間
-* I2C Bus Free Timing Setting Register: STOP ConditionからSTART Condition間のBus Free時間
+* I2C START Hold Timing Setting Register: START Condition および RepeatedSTART Condition の Hold 時間
+* I2C STOP Setup Timing Setting Register: STOP Condition の Setup 時間
+* I2C Repeated START Setup Timing Setting Register: Repeated START Condition の Setup 時間
+* I2C Clock High Timing Setting Register: I2C クロック(SCL)の High 期間
+* I2C Data Hold Timing Setting Register: I2C データ(SDA)の Hold 時間
+* I2C Data Setup Timing Setting Register: I2C データ(SDA)の Setup 時間
+* I2C Bus Free Timing Setting Register: STOP Condition から START Condition 間の Bus Free 時間
 
-初期状態ではシステムクロック 48 MHz、Standard-mode(100Kb/s)で通信を行う場合のタイミングに設定されています。接続する I2Cデバイスが対応する通信レートやモードに応じ変更することが出来ます。
+初期状態ではシステムクロック 48 MHz、Standard-mode(100Kb/s)で通信を行う場合のタイミングに設定されています。接続する I2C デバイスが対応する通信レートやモードに応じ変更することが出来ます。
 
-各タイミングパラメータの設定により生成される、I2C Controllerのタイミングを以下に示します。
+各タイミングパラメータの設定により生成される、I2C Controller のタイミングを以下に示します。
 
 .I2Cバスタイミング
 image::i2cm_timing.svg[i2cm_timing]
@@ -507,9 +507,9 @@ image::i2cm_timing.svg[i2cm_timing]
 .I2Cバスタイミング(Repeated Start)
 image::i2cm_timing_repsta.svg[i2cm_timing_repsta]
 
-I2Cクロック(SCL)のLow期間(tLOW)は、I2Cデータ(SDA)のSetup/Hold時間 (I2CM_TSUDAT, I2CM_THDDAT) の Total 時間となります。I2C通信の1ビットは、I2Cクロック(SCL)のHigh期間(I2CM_THIGH)と I2Cクロック(SCL)のLow期間(tLOW)のTotal時間となります。
+I2C クロック(SCL)の Low 期間(tLOW)は、I2C データ(SDA)の Setup/Hold 時間 (I2CM_TSUDAT, I2CM_THDDAT) の Total 時間となります。I2C 通信の 1 ビットは、I2C クロック(SCL)の High 期間(I2CM_THIGH)と I2C クロック(SCL)の Low 期間(tLOW)の Total 時間となります。
 
-システムクロックが96MHz, 48MHz, 24MHzにおいて、Standard-mode(100Kb/s)、Fast-mode(400Kb/s)、Fast-mode Plus(1Mb/s)で通信する場合の、タイミングパラメータ設定値の例を以下にします。
+システムクロックが 96MHz, 48MHz, 24MHz において、Standard-mode(100Kb/s)、Fast-mode(400Kb/s)、Fast-mode Plus(1Mb/s)で通信する場合の、タイミングパラメータ設定値の例を以下にします。
 
 .I2C Controller タイミングパラメータの設定例 (システムクロック 96 MHz)
 [cols=",,,",options="header",]
@@ -555,34 +555,34 @@ I2Cクロック(SCL)のLow期間(tLOW)は、I2Cデータ(SDA)のSetup/Hold時間
 
 制限事項：
 
-1. データ処理に必要な時間として、I2C Clock High Timing Setting Register(I2CM_THIGH)の設定値は、必ず0x0004以上となるように設定してください。
-2. マルチマスター構成となる場合、または クロックストレッチ機能を持ったI2Cデバイスと接続して通信する場合、以下のレジスタの設定値は、I2Cクロックの同期処理に必要な時間を確保するため0x0003以上となるように設定する必要があります。
+1. データ処理に必要な時間として、I2C Clock High Timing Setting Register(I2CM_THIGH)の設定値は、必ず 0x0004 以上となるように設定してください。
+2. マルチマスター構成となる場合、またはクロックストレッチ機能を持った I2C デバイスと接続して通信する場合、以下のレジスタの設定値は、I2C クロックの同期処理に必要な時間を確保するため 0x0003 以上となるように設定する必要があります。
    * I2C STOP Setup Timing Setting Register(I2CM_TSUSTO)
    * I2C Repeated START Setup Timing Setting Register(I2CM_TSUSTA)
    * I2C Data Hold Timing Setting Register(I2CM_THDDAT)
 
 === I2C通信操作手順例
 
-この章では、I2C通信を行うための I2C Controllerのレジスタ制御手順を説明します。
+この章では、I2C 通信を行うための I2C Controller のレジスタ制御手順を説明します。
 
-I2C Controllerは、マルチマスターに対応する実装のため、I2C Controllerと I2Cバスを切り離す機能と、I2C Busを監視する機能を持っています。この仕様により、I2C Enable RegisterのI2CM_ENビットが"1"で、且つ I2C BusがIdle状態の時のみ I2C通信を開始することができます。 I2CM_ENビットが"0"、または、I2C BusがIdle状態でない場合は、I2C TX FIFO Registerにデータが書き込まれても I2C通信を開始せず、I2CM_ENビットが"1"、かつ、I2C BusがIdle状態になるまで Waitします。
+I2C Controller は、マルチマスターに対応する実装のため、I2C Controller と I2C バスを切り離す機能と、I2C Bus を監視する機能を持っています。この仕様により、I2C Enable Register の I2CM_EN ビットが"1"で、且つ I2C Bus が Idle 状態の時のみ I2C 通信を開始できます。 I2CM_EN ビットが"0"、または、I2C Bus が Idle 状態でない場合は、I2C TX FIFO Register にデータが書き込まれても I2C 通信を開始せず、I2CM_EN ビットが"1"、かつ、I2C Bus が Idle 状態になるまで Wait します。
 
-これ以降のレジスタアクセス手順は、I2CM_ENビットが "1"で I2C Busが Idle状態である事を前提に記載しています。
+これ以降のレジスタアクセス手順は、I2CM_EN ビットが "1"で I2C Bus が Idle 状態である事を前提に記載しています。
 
 ==== データ書き込み操作手順
 
-本章では I2Cデバイスへのデータ書き込みを行う場合の手順を説明します。
+本章では I2C デバイスへのデータ書き込みを行う場合の手順を説明します。
 
-I2Cデバイスへデータ書き込みを行う場合の I2C Busの波形を以下に示します。
+I2C デバイスへデータ書き込みを行う場合の I2C Bus の波形を以下に示します。
 
 .I2C書き込みアクセス波形
 image::i2cm_write_acc_seq.png[i2cm_write_acc_seq]
 
-* A: TX FIFO(I2C TX FIFO RegisterのI2CM_TXDATAフィールド)の Bit7-1に I2Cデバイスのアドレスと Bit0(R/Wビット)に"0"(送信モード)を書き込みます。 I2C ControllerはI2C書き込み動作を開始し、I2C BusにStart Condition, TX FIFOに書き込まれたアドレス, R/Wビットの順に送信します。 データ送信後の次のサイクルは I2Cデバイスからの ACK受信を行います。
-* B: 送信するデータを送信順に 1Byte単位でTX FIFOに書き込みます。 書き込みが完了したデータから、順次 I2C Busに送信されます。 なお、I2Cデバイスからの ACK受信は 1 Byte毎に毎回行います。
-* C: 最終 Byteの送信データを TX FIFOに書き込む時、同時に I2C TX FIFO RegisterのI2CM_STOPビットに"1"をセットします。 I2C Controllerは、最終 Byteのデータ送信と ACK受信の完了後に、I2C BusにSTOP Conditionを送信し、I2C Interrupt Status Registerの I2CM_COMP割り込みをセットして、書き込み動作を完了します。
+* A: TX FIFO(I2C TX FIFO Register の I2CM_TXDATA フィールド)の Bit7-1 に I2C デバイスのアドレスと Bit0(R/W ビット)に"0"(送信モード)を書き込みます。 I2C Controller は I2C 書き込み動作を開始し、I2C Bus に Start Condition, TX FIFO に書き込まれたアドレス、 R/W ビットの順に送信します。 データ送信後の次のサイクルは I2C デバイスからの ACK 受信を行います。
+* B: 送信するデータを送信順に 1Byte 単位で TX FIFO に書き込みます。 書き込みが完了したデータから、順次 I2C Bus に送信されます。 なお、I2C デバイスからの ACK 受信は 1 Byte 毎に毎回行います。
+* C: 最終 Byte の送信データを TX FIFO に書き込む時、同時に I2C TX FIFO Register の I2CM_STOP ビットに"1"をセットします。 I2C Controller は、最終 Byte のデータ送信と ACK 受信の完了後に、I2C Bus に STOP Condition を送信し、I2C Interrupt Status Register の I2CM_COMP 割り込みをセットして、書き込み動作を完了します。
 
-具体的な例として、I2Cデバイスのアドレス 0x67に、0x89, 0xAB, 0xCD, 0xEFのデータを書き込む場合には、I2C TX FIFO Registerに以下の書き込みを行います。
+具体的な例として、I2C デバイスのアドレス 0x67 に、0x89, 0xAB, 0xCD, 0xEF のデータを書き込む場合には、I2C TX FIFO Register に以下の書き込みを行います。
 
 . Register Write, Address Offset: 0x0004, Write Data: 0x000000CE
 . Register Write, Address Offset: 0x0004, Write Data: 0x00000089
@@ -590,21 +590,21 @@ image::i2cm_write_acc_seq.png[i2cm_write_acc_seq]
 . Register Write, Address Offset: 0x0004, Write Data: 0x000000CD
 . Register Write, Address Offset: 0x0004, Write Data: 0x000001EF
 
-TX FIFOの容量を超えるサイズのデータを送信する場合は、TX FIFOがOverflowしないよう書き込み間隔を調整する必要があります。 TX FIFOのデータ格納量のステータスは、I2C FIFO Status Registerや TX FIFO関連の割り込みにより、ソフトウェアから確認することができます。 I2C書き込み動作中に、I2CM_STOPビットがセットされない状態でTX FIFOが Emptyとなった場合、I2C通信を一時停止します。 この時、TX FIFOに送信データが書き込まれると、I2C通信を再開します。
+TX FIFO の容量を超えるサイズのデータを送信する場合は、TX FIFO が Overflow しないよう書き込み間隔を調整する必要があります。 TX FIFO のデータ格納量のステータスは、I2C FIFO Status Register や TX FIFO 関連の割り込みにより、ソフトウェアから確認できます。 I2C 書き込み動作中に、I2CM_STOP ビットがセットされない状態で TX FIFO が Empty となった場合、I2C 通信を一時停止します。 この時、TX FIFO に送信データが書き込まれると、I2C 通信を再開します。
 
-次にRepeated Start Conditionを使用した書き込みアクセスの手順を説明します。 この手順はデバイスアドレスとは別にレジスタアドレスを持つ I2Cデバイスとの通信時などで使用します。
+次に Repeated Start Condition を使用した書き込みアクセスの手順を説明します。 この手順はデバイスアドレスとは別にレジスタアドレスを持つ I2C デバイスとの通信時などで使用します。
 
 .Repeated Startを使用したI2C書き込みアクセス波形
 image::i2cm_write_acc_seq_repsta.png[i2cm_write_acc_seq_repsta]
 
-* A: 前の手順と同様に TX FIFOのBit7-1に I2Cデバイスのアドレス、Bit0(R/Wビット)に"0"(送信モード)を書き込みます。
-* B: TX FIFOに 送信データの書き込み(ここではI2Cデバイスのレジスタアドレスとします)と同時に、I2C TX FIFO RegisterのI2CM_RESTARTビットに"1"をセットします。 I2C Controllerはレジスタアドレスの送信後のACK受信が完了すると、Repeated Start Conditionを送信します。
-* C: Aの手順と同様、再度TX FIFOのBit7-1に I2Cデバイスのアドレスと、Bit0(R/Wビット)に"0"(送信モード)を書き込みます。
-* D: 送信するデータを 1 Byte単位で送信順にTX FIFOに書き込みます。
-* E: 最終 Byteの送信データを TX FIFOに書き込む時、同時にI2C TX FIFO Registerの I2CM_STOPビットに"1"をセットします。
+* A: 前の手順と同様に TX FIFO の Bit7-1 に I2C デバイスのアドレス、Bit0(R/W ビット)に"0"(送信モード)を書き込みます。
+* B: TX FIFO に送信データの書き込み(ここでは I2C デバイスのレジスタアドレスとします)と同時に、I2C TX FIFO Register の I2CM_RESTART ビットに"1"をセットします。 I2C Controller はレジスタアドレスの送信後の ACK 受信が完了すると、Repeated Start Condition を送信します。
+* C: A の手順と同様、再度 TX FIFO の Bit7-1 に I2C デバイスのアドレスと、Bit0(R/W ビット)に"0"(送信モード)を書き込みます。
+* D: 送信するデータを 1 Byte 単位で送信順に TX FIFO に書き込みます。
+* E: 最終 Byte の送信データを TX FIFO に書き込む時、同時に I2C TX FIFO Register の I2CM_STOP ビットに"1"をセットします。
 
-具体的な例として、アドレス 0x67のI2Cデバイスのレジスタアドレス 0xFEに、0xDC、0xBA、0x98、0x76、0x54のデータを書き込む場合には、I2C TX
-FIFO Registerに以下の書き込みを行います。
+具体的な例として、アドレス 0x67 の I2C デバイスのレジスタアドレス 0xFE に、0xDC、0xBA、0x98、0x76、0x54 のデータを書き込む場合には、I2C TX
+FIFO Register に以下の書き込みを行います。
 
 . Register Write, Address Offset: 0x0004, Write Data: 0x000000CE
 . Register Write, Address Offset: 0x0004, Write Data: 0x000002FE
@@ -617,37 +617,37 @@ FIFO Registerに以下の書き込みを行います。
 
 ==== データ読み出し操作手順
 
-本章では I2Cデバイスからのデータ読み出しを行う場合の手順を説明します。
+本章では I2C デバイスからのデータ読み出しを行う場合の手順を説明します。
 
-I2Cデバイスからデータ読み出しを行う場合の I2C Busの波形を以下に示します。
+I2C デバイスからデータ読み出しを行う場合の I2C Bus の波形を以下に示します。
 
 .I2C読み出しアクセス波形
 image::i2cm_read_acc_seq.png[i2cm_read_acc_seq]
 
-* A: TX FIFO(I2C TX FIFO RegisterのI2CM_TXDATAフィールド)のBit7-1に I2Cデバイスのアドレス7と、Bit0(R/Wビット)に"1"を書き込みます。 I2C ControllerはI2C読み出し動作を開始し、I2C BusにStart Condition送信後、TX FIFOに書き込まれたアドレスとR/Wビットを送信します。 データ送信後の次のサイクルは I2Cデバイスからの ACK受信を行います。
-* B: 受信するデータのByte数から 1を引いた値をTX FIFOに書き込みます。 この時、同時に I2C TX FIFO RegisterのI2CM_STOPビットに"1"をセットします。 TX FIFOに設定されたByte数分のデータ受信を行い、受信データを RX FIFOへ格納します。 なお、I2Cデバイスから 1 Byteのデータを受信するたびに I2Cデバイスへの ACK送信を行います。
-* C: I2C Controllerは、最終 Byteのデータ受信後 NACKを送信し、I2C BusにStop Conditionを送信します。 また同時に、I2C Interrupt Status RegisterのI2CM_COMP割り込みをセットして、読み出し動作を完了します。
+* A: TX FIFO(I2C TX FIFO Register の I2CM_TXDATA フィールド)の Bit7-1 に I2C デバイスのアドレス 7 と、Bit0(R/W ビット)に"1"を書き込みます。 I2C Controller は I2C 読み出し動作を開始し、I2C Bus に Start Condition 送信後、TX FIFO に書き込まれたアドレスと R/W ビットを送信します。 データ送信後の次のサイクルは I2C デバイスからの ACK 受信を行います。
+* B: 受信するデータの Byte 数から 1 を引いた値を TX FIFO に書き込みます。 この時、同時に I2C TX FIFO Register の I2CM_STOP ビットに"1"をセットします。 TX FIFO に設定された Byte 数分のデータ受信を行い、受信データを RX FIFO へ格納します。 なお、I2C デバイスから 1 Byte のデータを受信するたびに I2C デバイスへの ACK 送信を行います。
+* C: I2C Controller は、最終 Byte のデータ受信後 NACK を送信し、I2C Bus に Stop Condition を送信します。 また同時に、I2C Interrupt Status Register の I2CM_COMP 割り込みをセットして、読み出し動作を完了します。
 +
-I2C Controllerは、最終 Byteのデータ送信と ACK受信の完了後に、I2C BusにSTOP Conditionを送信し、I2C Interrupt Status Registerの I2CM_COMP割り込みをセットして、書き込み動作を完了します。
+I2C Controller は、最終 Byte のデータ送信と ACK 受信の完了後に、I2C Bus に STOP Condition を送信し、I2C Interrupt Status Register の I2CM_COMP 割り込みをセットして、書き込み動作を完了します。
 
-具体的な例として、I2Cデバイスのアドレス 0x67から 4 Byteのデータ読み出す場合は、I2C TX FIFO Registerに以下の書き込みを行います。
+具体的な例として、I2C デバイスのアドレス 0x67 から 4 Byte のデータ読み出す場合は、I2C TX FIFO Register に以下の書き込みを行います。
 
 . Register Write, Address Offset: 0x0004, Write Data: 0x000000CF
 . Register Write, Address Offset: 0x0004, Write Data: 0x00000103
 
-受信データはI2C RX FIFO Registerを読み出すことにより取得できます。 I2C読み出し動作中に、設定したByte数のデータ受信が完了しない状態で RX FIFOが Fullとなった場合、I2C通信を一時停止します。 この時、RX FIFOから受信データが読み出されると、I2C通信を再開します。 RX FIFOの容量を超えるサイズのデータを受信する場合は、RX FIFOのサイズを考慮し RX FIFOから定期的にデータ読み出す必要があります。 RX_FIFOのデータ格納量のステータスは、I2C FIFO Status Registerや RX_FIFO関連の割り込みにより、ソフトウェアから確認することができます。
+受信データは I2C RX FIFO Register を読み出すことにより取得できます。 I2C 読み出し動作中に、設定した Byte 数のデータ受信が完了しない状態で RX FIFO が Full となった場合、I2C 通信を一時停止します。 この時、RX FIFO から受信データが読み出されると、I2C 通信を再開します。 RX FIFO の容量を超えるサイズのデータを受信する場合は、RX FIFO のサイズを考慮し RX FIFO から定期的にデータ読み出す必要があります。 RX_FIFO のデータ格納量のステータスは、I2C FIFO Status Register や RX_FIFO 関連の割り込みにより、ソフトウェアから確認できます。
 
-次にRepeated Start Conditionを使用した読み出しアクセスの手順を説明します。 この手順はデバイスアドレスとは別にレジスタアドレスを持つ場合や、10ビットアドレスの I2Cデバイスとの通信時に使用します。
+次に Repeated Start Condition を使用した読み出しアクセスの手順を説明します。 この手順はデバイスアドレスとは別にレジスタアドレスを持つ場合や、10 ビットアドレスの I2C デバイスとの通信時に使用します。
 
 .Repeated Startを使用したI2C読み出しアクセス波形
 image::i2cm_read_acc_seq_repsta.png[i2cm_read_acc_seq_repsta]
 
-* A: 前の手順と同様に、TX FIFOのBit7-1に I2Cデバイスのアドレス、Bit0(R/Wビット)に"0"(送信モード)を書き込みます。
-* B: TX FIFOに送信データの書き込み(ここではI2Cデバイスのレジスタアドレスとします)と同時に、I2C TX FIFO RegisterのI2CM_RESTARTビットに"1"をセットします。 I2C Controllerはレジスタアドレスの送信後のACK受信が完了すると、Repeated Start Conditionを送信します。
-* C: TX FIFOのBit7-1に I2Cデバイスのアドレスと、Bit0(R/Wビット)に"1"を書き込みます。
-* D: 受信するデータの Byte数から 1を引いた値のTX FIFOに書き込みます。この時 同時にI2C TX FIFO RegisterのI2CM_STOPビットに"1"をセットします。
+* A: 前の手順と同様に、TX FIFO の Bit7-1 に I2C デバイスのアドレス、Bit0(R/W ビット)に"0"(送信モード)を書き込みます。
+* B: TX FIFO に送信データの書き込み(ここでは I2C デバイスのレジスタアドレスとします)と同時に、I2C TX FIFO Register の I2CM_RESTART ビットに"1"をセットします。 I2C Controller はレジスタアドレスの送信後の ACK 受信が完了すると、Repeated Start Condition を送信します。
+* C: TX FIFO の Bit7-1 に I2C デバイスのアドレスと、Bit0(R/W ビット)に"1"を書き込みます。
+* D: 受信するデータの Byte 数から 1 を引いた値の TX FIFO に書き込みます。この時同時に I2C TX FIFO Register の I2CM_STOP ビットに"1"をセットします。
 
-具体的な例として、アドレス 0x67のI2Cデバイスのレジスタアドレス 0xFEから 5 Byteのデータ読み出しを行いたい場合は、I2C TX FIFO Registerに以下の書き込みを行います。
+具体的な例として、アドレス 0x67 の I2C デバイスのレジスタアドレス 0xFE から 5 Byte のデータ読み出しを行いたい場合は、I2C TX FIFO Register に以下の書き込みを行います。
 
 . Register Write, Address Offset: 0x0004, Write Data: 0x000000CE
 . Register Write, Address Offset: 0x0004, Write Data: 0x000002FE

@@ -27,7 +27,7 @@ Hardware Interrupt Timerの出力チャネルと、接続されている IP Core
 
 == レジスタ詳細
 
-General Purpose Timerは、Base Address 0x4F05_0000に配置されています。
+General Purpose Timer は、Base Address 0x4F05_0000 に配置されています。
 
 .General Purpose Timer メモリマップ
 [cols="4,4,10,2",options="header",]
@@ -70,15 +70,15 @@ General Purpose Timerは、Base Address 0x4F05_0000に配置されています�
 
 === Global Timer Register (Offset: 0x0000)
 
-Global Timer Registerは、Global Timerの現在の値を示すレジスタです。
+Global Timer Register は、Global Timer の現在の値を示すレジスタです。
 
-Global Timerは、SC-OBC-A1 FPGAの起動後に発生するシステムリセットの解除からカウントを開始するカウンターです。
+Global Timer は、SC-OBC-A1 FPGA の起動後に発生するシステムリセットの解除からカウントを開始するカウンターです。
 このタイマーの値を読み出す事で起動後の時間を知る事ができます。
 
-Global Timerの動作クロックは、FPGAに入力する原発クロックです。
+Global Timer の動作クロックは、FPGA に入力する原発クロックです。
 そのため、システムがどんな状態であってもカウント動作を行います。
 
-Timerの最小時間は、0.0625秒であり、最大 268435455.9375秒(約 8年186日)までカウントする事ができます。
+Timer の最小時間は、0.0625 秒であり、最大 268435455.9375 秒(約 8 年 186 日)までカウントできます。
 
 .Global Timer Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -103,7 +103,7 @@ Bit 0: 2^-4 (0.0625)秒 +
 
 === Timer Enable Control Register (Offset: 0x0004)
 
-Timer Enable Control Registerは、Software Interrupt Timerと Hardware Interrupt Timerの動作を制御するレジスタです。
+Timer Enable Control Register は、Software Interrupt Timer と Hardware Interrupt Timer の動作を制御するレジスタです。
 
 .Timer Enable Control Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -120,8 +120,8 @@ Timer Enable Control Registerは、Software Interrupt Timerと Hardware Interrup
 
 === Software Interrupt Timer Remaining Register (Offset: 0x0008)
 
-Software Interrupt Timer Remaining Registerは Software Interrupt Timerの現在のカウント値を示すレジスタです。
-Software Interrupt Timerの最小時間は、Software Interrupt Timer Prescaler Registerの設定値により決まります。
+Software Interrupt Timer Remaining Register は Software Interrupt Timer の現在のカウント値を示すレジスタです。
+Software Interrupt Timer の最小時間は、Software Interrupt Timer Prescaler Register の設定値により決まります。
 
 .Software Interrupt Timer Remaining Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -132,9 +132,9 @@ Software Interrupt Timerの最小時間は、Software Interrupt Timer Prescaler 
 
 === Hardware Interrupt Timer Remaining Register (Offset: 0x000C)
 
-Hardware Interrupt Timer Remaining Registerは Hardware Interrupt Timerの現在のカウント値を示すレジスタです。
+Hardware Interrupt Timer Remaining Register は Hardware Interrupt Timer の現在のカウント値を示すレジスタです。
 
-Hardware Interrupt Timerの最小時間は、Hardware Interrupt Timer Prescaler Registerの設定値により決まります。
+Hardware Interrupt Timer の最小時間は、Hardware Interrupt Timer Prescaler Register の設定値により決まります。
 
 .Hardware Interrupt Timer Remaining Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -145,10 +145,10 @@ Hardware Interrupt Timerの最小時間は、Hardware Interrupt Timer Prescaler 
 
 === Global Timer Interrupt Status Register (Offset: 0x0010)
 
-Global Timer Interrupt Status Registerは、Global Timerの割り込みステータスを示すレジスタです。
+Global Timer Interrupt Status Register は、Global Timer の割り込みステータスを示すレジスタです。
 
-Global Timerに起因する割り込みが発生した時、割り込み要因に対応するビットがセットされます。
-それぞれのビットは "1"をセットすると、割り込みをクリアする事ができます。
+Global Timer に起因する割り込みが発生した時、割り込み要因に対応するビットがセットされます。
+それぞれのビットは "1"をセットすると、割り込みをクリアできます。
 
 .Global Timer Interrupt Status Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -165,9 +165,9 @@ Global Timerに起因する割り込みが発生した時、割り込み要因�
 
 === Global Timer Interrupt Enable Register (Offset: 0x0014)
 
-Global Timer Interrupt Enable Registerは、Global Timerの動作において発生した割り込みイベントを割り込み出力信号に通知するか設定するためのレジスタです。
+Global Timer Interrupt Enable Register は、Global Timer の動作において発生した割り込みイベントを割り込み出力信号に通知するか設定するためのレジスタです。
 
-このレジスタで "1"にセットされた割り込みイネーブルビットと、Global Timer Interrupt Status Registerの対応する割り込みステータスビットが "1"にセットされた時、Global Timer割り込みを出力します。
+このレジスタで "1"にセットされた割り込みイネーブルビットと、Global Timer Interrupt Status Register の対応する割り込みステータスビットが "1"にセットされた時、Global Timer 割り込みを出力します。
 
 .Global Timer Interrupt Enable Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -184,9 +184,9 @@ Global Timer Interrupt Enable Registerは、Global Timerの動作において発
 
 === Global Timer Output Compare Register 1-4 (Offset: 0x0020-0x002C)
 
-Global Timer Output Compare Register 1-4は、Global Timerのタイマー出力値に対する比較イベントを生成するための設定レジスタです。
+Global Timer Output Compare Register 1-4 は、Global Timer のタイマー出力値に対する比較イベントを生成するための設定レジスタです。
 
-Global Timerは、出力比較を行うチャネルを 4つ持っています。 Global Timerのカウント値と、本レジスタの設定値が一致したときに、対応するチャネルの比較イベントを生成します。
+Global Timer は、出力比較を行うチャネルを 4 つ持っています。 Global Timer のカウント値と、本レジスタの設定値が一致したときに、対応するチャネルの比較イベントを生成します。
 このレジスタの値が "0"に設定されている場合、そのチャネルの出力比較機能は無効になります。
 
 .Global Timer Output Compare Register 1 ビットフィールド (Offset: 0x0020)
@@ -219,9 +219,9 @@ Global Timerは、出力比較を行うチャネルを 4つ持っています。
 
 === Software Interrupt Timer Control Register (Offset: 0x0100)
 
-Software Interrupt Timer Control Registerは、Software Interrupt Timerの制御方法を指定するレジスタです。
+Software Interrupt Timer Control Register は、Software Interrupt Timer の制御方法を指定するレジスタです。
 
-このレジスタは、Timer Enable Control Registerの GPTMR_SITENビットをセットする前に設定する必要があります。
+このレジスタは、Timer Enable Control Register の GPTMR_SITEN ビットをセットする前に設定する必要があります。
 
 .Software Interrupt Timer Control Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -251,12 +251,12 @@ Free Runモードは、出力比較チャネル 1で比較イベントが発生�
 
 === Software Interrupt Timer Prescaler Register (Offset: 0x0104)
 
-Software Interrupt Timer Prescaler Registerは、Software Interrupt TimerのPrescalerを設定するためのレジスタです。
+Software Interrupt Timer Prescaler Register は、Software Interrupt Timer の Prescaler を設定するためのレジスタです。
 
-Software Interrupt Timerは、24 MHzのクロックで動作します。
-このレジスタには、Software Interrupt Timerをカウントアップするための、クロックサイクル数を設定します。
+Software Interrupt Timer は、24 MHz のクロックで動作します。
+このレジスタには、Software Interrupt Timer をカウントアップするための、クロックサイクル数を設定します。
 
-このレジスタは、Timer Enable Control Registerの GPTMR_SITENビットをセットする前に設定する必要があります。
+このレジスタは、Timer Enable Control Register の GPTMR_SITEN ビットをセットする前に設定する必要があります。
 
 .Software Interrupt Timer Prescaler Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -266,7 +266,7 @@ Software Interrupt Timerは、24 MHzのクロックで動作します。
 |15:0  |GPTMR_SITPSC |Software Interrupt Timer Prescale |Software Interrupt Timerをカウントアップするための動作クロックに対するサイクル数を設定します。 |R/W
 |===
 
-GPTMR_SITPSCに設定する値は、Software Interrupt Timerの動作クロック周波数 (24 MHz)とカウンターのカウントアップ間隔から、以下の計算で算出することができます。
+GPTMR_SITPSC に設定する値は、Software Interrupt Timer の動作クロック周波数 (24 MHz)とカウンターのカウントアップ間隔から、以下の計算で算出できます。
 
 [stem]
 ++++
@@ -275,10 +275,10 @@ GPTMR\_SITPSC = 24 \times 10^6 \times Software\ Interrupt\ Timer\ Countup\ Inter
 
 === Software Interrupt Timer Status Register (Offset: 0x0108)
 
-Software Interrupt Timer Status Registerは、Software Interrupt Timerの割り込みステータスを示すレジスタです。
+Software Interrupt Timer Status Register は、Software Interrupt Timer の割り込みステータスを示すレジスタです。
 
-Software Interrupt Timerに起因する割り込みが発生した時、割り込み要因に対応するビットがセットされます。
-それぞれのビットは "1"をセットすると、割り込みをクリアする事ができます。
+Software Interrupt Timer に起因する割り込みが発生した時、割り込み要因に対応するビットがセットされます。
+それぞれのビットは "1"をセットすると、割り込みをクリアできます。
 
 .Software Interrupt Timer Status Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -299,9 +299,9 @@ Software Interrupt Timerに起因する割り込みが発生した時、割り�
 
 === Software Interrupt Timer Enable Register (Offset: 0x010C)
 
-Software Interrupt Timer Enable Registerは、Software Interrupt Timerの動作において発生した割り込みイベントを割り込み出力信号に通知するか設定するためのレジスタです。
+Software Interrupt Timer Enable Register は、Software Interrupt Timer の動作において発生した割り込みイベントを割り込み出力信号に通知するか設定するためのレジスタです。
 
-このレジスタで "1"にセットされた割り込みイネーブルビットと、Software Interrupt Timer Status Registerの対応する割り込みステータスビットが "1"にセットされた時、Software Interrupt Timerの割り込みを出力します。
+このレジスタで "1"にセットされた割り込みイネーブルビットと、Software Interrupt Timer Status Register の対応する割り込みステータスビットが "1"にセットされた時、Software Interrupt Timer の割り込みを出力します。
 
 .Software Interrupt Timer Enable Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -322,10 +322,10 @@ Software Interrupt Timer Enable Registerは、Software Interrupt Timerの動作�
 
 === Software Interrupt Timer Output Compare Register 1-8 (Offset: 0x0110-0x012C)
 
-Software Interrupt Timer Output Compare Register 1-8は、Software Interrupt Timerのタイマー出力値に対する比較イベントを生成するための設定レジスタです。
+Software Interrupt Timer Output Compare Register 1-8 は、Software Interrupt Timer のタイマー出力値に対する比較イベントを生成するための設定レジスタです。
 
-Software Interrupt Timerは、出力比較を行うチャネルは 8つ持っています。
-Software Interrupt Timerのカウント値と、本レジスタの設定値が一致したとき、対応するチャネルの比較イベントを生成します。
+Software Interrupt Timer は、出力比較を行うチャネルは 8 つ持っています。
+Software Interrupt Timer のカウント値と、本レジスタの設定値が一致したとき、対応するチャネルの比較イベントを生成します。
 レジスタの値が "0"に設定されている場合、そのチャネルの出力比較機能は無効になります。
 
 .Software Interrupt Timer Output Compare Register 1 ビットフィールド (Offset: 0x0110)
@@ -386,11 +386,11 @@ Software Interrupt Timerのカウント値と、本レジスタの設定値が�
 
 === Hardware Interrupt Timer Control Register (Offset: 0x0200)
 
-Hardware Interrupt Timer Control Registerは、Hardware Interrupt
-Timerの制御方法を指定するレジスタです。
+Hardware Interrupt Timer Control Register は、Hardware Interrupt
+Timer の制御方法を指定するレジスタです。
 
-このレジスタは、Timer Enable Control Registerの
-GPTMR_HITENビットをセットする前に設定する必要があります。
+このレジスタは、Timer Enable Control Register の
+GPTMR_HITEN ビットをセットする前に設定する必要があります。
 
 .Hardware Interrupt Timer Control Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -466,12 +466,12 @@ Free Runモードは、出力比較チャネル 1で比較イベントが発生�
 
 === Hardware Interrupt Timer Prescaler Register (Offset: 0x0204)
 
-Hardware Interrupt Timer Prescaler Registerは、Hardware Interrupt Timerの Prescalerを設定するためのレジスタです。
+Hardware Interrupt Timer Prescaler Register は、Hardware Interrupt Timer の Prescaler を設定するためのレジスタです。
 
-Hardware Interrupt Timerは、24 MHzのクロックで動作します。
-このレジスタには、Hardware Interrupt Timerをカウントアップするための、クロックサイクル数を設定します。
+Hardware Interrupt Timer は、24 MHz のクロックで動作します。
+このレジスタには、Hardware Interrupt Timer をカウントアップするための、クロックサイクル数を設定します。
 
-このレジスタは、Timer Enable Control Registerの GPTMR_HITENビットをセットする前に設定する必要があります。
+このレジスタは、Timer Enable Control Register の GPTMR_HITEN ビットをセットする前に設定する必要があります。
 
 .Hardware Interrupt Timer Prescaler Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -481,7 +481,7 @@ Hardware Interrupt Timerは、24 MHzのクロックで動作します。
 |15:0  |GPTMR_HITPSC |Hardware Interrupt Timer Prescale |Hardware Interrupt Timerがカウントアップするための動作クロックに対するサイクル数を設定します。|R/W
 |===
 
-GPTMR_HITPSCに設定する値は、Hardware Interrupt Timerの動作クロック周波数 (24 MHz)とカウンターのカウントアップ間隔から、以下の計算で算出することができます。
+GPTMR_HITPSC に設定する値は、Hardware Interrupt Timer の動作クロック周波数 (24 MHz)とカウンターのカウントアップ間隔から、以下の計算で算出できます。
 
 [stem]
 ++++
@@ -490,10 +490,10 @@ GPTMR\_HITPSC = 24 \times 10^6 \times Hardware\ Interrupt\ Timer\ Countup\ Inter
 
 === Hardware Interrupt Timer Output Compare Register 1-8 (Offset: 0x0210-0x022C)
 
-Hardware Interrupt Timer Output Compare Register 1-8は、Hardware Interrupt Timerのタイマー出力値に対する比較イベントを生成するための設定レジスタです。
+Hardware Interrupt Timer Output Compare Register 1-8 は、Hardware Interrupt Timer のタイマー出力値に対する比較イベントを生成するための設定レジスタです。
 
-Hardware Interrupt Timerは、出力比較を行うチャネルを 8つ持っています。
-Hardware Interrupt Timerのカウント値と、本レジスタの設定値が一致したとき、対応するチャネルの比較イベントを生成します。
+Hardware Interrupt Timer は、出力比較を行うチャネルを 8 つ持っています。
+Hardware Interrupt Timer のカウント値と、本レジスタの設定値が一致したとき、対応するチャネルの比較イベントを生成します。
 このレジスタの値が "0"に設定されている場合、そのチャネルの出力比較機能は無効になります。
 
 .Hardware Interrupt Timer Output Compare Register 1 ビットフィールド (Offset: 0x0210)
@@ -554,7 +554,7 @@ Hardware Interrupt Timerのカウント値と、本レジスタの設定値が�
 
 === General Purpose Timer IP Version Register (Offset: 0xF000)
 
-General Purpose Timer IP Version Registerは、General Purpose Timerの IPコアバージョンを示すレジスタです。
+General Purpose Timer IP Version Register は、General Purpose Timer の IP コアバージョンを示すレジスタです。
 
 .General Purpose Timer IP Version Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]

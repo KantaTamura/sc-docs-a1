@@ -5,8 +5,8 @@ AHB UART Liteは、UART通信を行うためのモジュールです。
 
 == レジスタ詳細
 
-AHB UARTコアは、システムに 7個実装されています。
-このうち 6個は、標準イメージにおいて、ユーザーが設計する Mission Bus Systemに実装されています。
+AHB UART コアは、システムに 7 個実装されています。
+このうち 6 個は、標準イメージにおいて、ユーザーが設計する Mission Bus System に実装されています。
 
 .AHB UART Lite Base Address
 [cols=",,",options="header",]
@@ -35,9 +35,9 @@ AHB UARTコアは、システムに 7個実装されています。
 
 === Rx FIFO Register (Offset 0x0000)
 
-Rx FIFO Registerは、UARTの受信データを読み出すためのレジスタです。
+Rx FIFO Register は、UART の受信データを読み出すためのレジスタです。
 
-Rx FIFOは受信したデータを 1 Byte単位で最大 16エントリまで格納できます。
+Rx FIFO は受信したデータを 1 Byte 単位で最大 16 エントリまで格納できます。
 
 .Rx FIFO Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -50,10 +50,10 @@ UART受信した順に 1 Byteずつ読み出されます。|RO
 
 === Tx FIFO Register (Offset 0x0004)
 
-Tx FIFO Registerは、UARTの送信データを書き込むためのレジスタです。
+Tx FIFO Register は、UART の送信データを書き込むためのレジスタです。
 
-書き込みデータは Tx FIFOに格納され、書き込み後直ちに送信を開始します。
-Tx FIFOは送信するデータを 1 Byte単位で最大 16エントリまで格納できます。
+書き込みデータは Tx FIFO に格納され、書き込み後直ちに送信を開始します。
+Tx FIFO は送信するデータを 1 Byte 単位で最大 16 エントリまで格納できます。
 
 .Tx FIFO Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -66,11 +66,11 @@ Tx FIFOは送信するデータを 1 Byte単位で最大 16エントリまで格
 
 === Status Register (Offset 0x0008)
 
-Status Registerは、AHB UART Liteの Errorや
-FIFOのステータスを確認するためのレジスタです。
+Status Register は、AHB UART Lite の Error や
+FIFO のステータスを確認するためのレジスタです。
 
-Control Registerの INTENACTLが
-"1"にセットされている時、RXFIFOVALビット・TXFIFOEMPビット・RXUNDERRUNERRビット・TXOVERRUNERRビットのいずれかが "0"から "1"に変化するたびに CPUに対しエッジ割り込みが出力されます。
+Control Register の INTENACTL が
+"1"にセットされている時、RXFIFOVAL ビット・TXFIFOEMP ビット・RXUNDERRUNERR ビット・TXOVERRUNERR ビットのいずれかが "0"から "1"に変化するたびに CPU に対しエッジ割り込みが出力されます。
 
 .Status Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -136,8 +136,8 @@ Rx FIFOの有効データ格納状態を示します。 +
 
 === Control Register (Offset 0x000C)
 
-Control Registerは、Tx FIFO/Rx
-FIFOのリセット制御と割り込み通知の設定を行うためのレジスタです。
+Control Register は、Tx FIFO/Rx
+FIFO のリセット制御と割り込み通知の設定を行うためのレジスタです。
 
 .Control Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -155,12 +155,12 @@ FIFOのリセット制御と割り込み通知の設定を行うためのレジ�
 === UART Baudrate Setting Register (Offset 0x0010)
 
 UART Baudrate Setting
-Registerは、UART通信のボーレートを設定するためのレジスタです。
+Register は、UART 通信のボーレートを設定するためのレジスタです。
 
-この設定では、UARTの 1ビットの幅がシステムクロックの何サイクルで生成するかを設定します。
-そのため、System Register.System Clock Control Registerの CLKMODEの設定を変更し、システムクロックの周波数が変わると設定しなおす必要があります。
+この設定では、UART の 1 ビットの幅がシステムクロックの何サイクルで生成するかを設定します。
+そのため、System Register.System Clock Control Register の CLKMODE の設定を変更し、システムクロックの周波数が変わると設定しなおす必要があります。
 
-レジスタの設定値はシステムクロックの周期と、設定するボーレートから以下のように計算することができます。
+レジスタの設定値はシステムクロックの周期と、設定するボーレートから以下のように計算できます。
 
 [stem]
 ++++
@@ -176,7 +176,7 @@ Registerは、UART通信のボーレートを設定するためのレジスタ�
 
 === AHB UART Lite IP Version Register (Offset: 0xF000)
 
-AHB UART Lite IPのバージョン管理用レジスタです。
+AHB UART Lite IP のバージョン管理用レジスタです。
 
 .AHB UART Lite IP Version Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]

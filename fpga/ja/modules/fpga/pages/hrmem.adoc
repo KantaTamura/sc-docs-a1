@@ -13,8 +13,8 @@ HRMEMは SRAMからのデータ読み出し時に 1 bit ECCエラーの発生を
 
 == レジスタ詳細
 
-HRMEMはデータを格納する Address 0x00000000からの 4 MByte空間とは別に、HRMEMを制御するために使用するレジスタが配置されています。
-HRMEMのレジスタは、Base Address 0x40500000に配置されています。
+HRMEM はデータを格納する Address 0x00000000 からの 4 MByte 空間とは別に、HRMEM を制御するために使用するレジスタが配置されています。
+HRMEM のレジスタは、Base Address 0x40500000 に配置されています。
 
 .HRMEM Register アドレスマップ
 [cols="4,4,10,2",options="header",]
@@ -37,8 +37,8 @@ HRMEMのレジスタは、Base Address 0x40500000に配置されています。
 
 === ECC Error Collect Enable Register (Offset: 0x0000)
 
-ECC Error Collect Enable Registerは、1bit ECCエラー検出時にメモリの修復のため訂正データの書き戻す機能を設定するためのレジスタです。
-このレジスタのEnableにすると、訂正データの書き戻し機能が有効になります。
+ECC Error Collect Enable Register は、1bit ECC エラー検出時にメモリの修復のため訂正データの書き戻す機能を設定するためのレジスタです。
+このレジスタの Enable にすると、訂正データの書き戻し機能が有効になります。
 
 .ECC Error Collect Enable Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -52,15 +52,15 @@ ECC Error Collect Enable Registerは、1bit ECCエラー検出時にメモリの
 
 === Memory Scrubing Control Register (Offset: 0x0008)
 
-Memory Scrubing Control Registerは、メモリスクラビング機能の設定を行うためのレジスタです。
-このレジスタのMemory Scrubing EnableをONにすると、SRAMの全フィールドの定期的な読み出し行い書き込まれたデータのチェックを行います。
+Memory Scrubing Control Register は、メモリスクラビング機能の設定を行うためのレジスタです。
+このレジスタの Memory Scrubing Enable を ON にすると、SRAM の全フィールドの定期的な読み出し行い書き込まれたデータのチェックを行います。
 
-メモリスクラビング機能は、SRAMの全領域のデータに対し定期的なエラーチェックを行う機能です。
-メモリスクラビング機能により検出したデータのエラーを修復する場合には、メモリ修復機能 (ECC Error Collect Enable RegisterのECCCOLENビット)も有効にする必要があります。
+メモリスクラビング機能は、SRAM の全領域のデータに対し定期的なエラーチェックを行う機能です。
+メモリスクラビング機能により検出したデータのエラーを修復する場合には、メモリ修復機能 (ECC Error Collect Enable Register の ECCCOLEN ビット)も有効にする必要があります。
 
-MEMSCRCYCはメモリスクラビングのための メモリ読み出しが発生する間隔を設定します。
-MEMSCRCYCの初期値は 1791に設定されています。
-この値は、およそ 1分でメモリの全領域を検査できる設計値になっています。
+MEMSCRCYC はメモリスクラビングのためのメモリ読み出しが発生する間隔を設定します。
+MEMSCRCYC の初期値は 1791 に設定されています。
+この値は、およそ 1 分でメモリの全領域を検査できる設計値になっています。
 
 .Memory Scrubing Control Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -83,8 +83,8 @@ MEMSCRCYCの初期値は 1791に設定されています。
 
 === HRMEM Interrupt Status Register (Offset: 0x0010)
 
-HRMEM Interrupt Status Registerは、HRMEMの割り込みステータスレジスタです。
-それぞれのビットは"1"をセットすると、割り込みをクリアする事ができます。
+HRMEM Interrupt Status Register は、HRMEM の割り込みステータスレジスタです。
+それぞれのビットは"1"をセットすると、割り込みをクリアできます。
 
 .HRMEM Interrupt Status Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -101,7 +101,7 @@ HRMEM Interrupt Status Registerは、HRMEMの割り込みステータスレジ�
 
 === HRMEM Interrupt Enable Register (Offset: 0x0014)
 
-HRMEM Interrupt Enable Registerは、HRMEMの動作において発生した割り込みイベントを割り込み出力信号に通知するか設定するためのレジスタです。
+HRMEM Interrupt Enable Register は、HRMEM の動作において発生した割り込みイベントを割り込み出力信号に通知するか設定するためのレジスタです。
 
 .HRMEM Interrupt Enable Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -115,11 +115,11 @@ HRMEM Interrupt Enable Registerは、HRMEMの動作において発生した割�
 
 === 1Bit ECC Error Count Register (Offset: 0x0020)
 
-1Bit ECC Error Count Registerは、1Bit ECCエラー検出回数を示すレジスタです。 1 Bit
-ECCエラーを検出するたびに該当するカウンターをインクリメントします。
+1Bit ECC Error Count Register は、1Bit ECC エラー検出回数を示すレジスタです。 1 Bit
+ECC エラーを検出するたびに該当するカウンターをインクリメントします。
 
-カウンターが上限である 0xFFFFに達すると停止します。
-このカウンターのクリアは、Error Count Clear Registerによって行います。
+カウンターが上限である 0xFFFF に達すると停止します。
+このカウンターのクリアは、Error Count Clear Register によって行います。
 
 .1Bit ECC Error Count Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -131,11 +131,11 @@ ECCエラーを検出するたびに該当するカウンターをインクリ�
 
 === ECC Correct Data Discard Count Register (Offset: 0x0028)
 
-ECC Correct Data Discard Count Registerは、エラー修復データの破棄回数を表示するカウンターレジスタです。
+ECC Correct Data Discard Count Register は、エラー修復データの破棄回数を表示するカウンターレジスタです。
 エラー修復データを破棄するたびに、本カウンターをインクリメントします。
 
-カウンターが上限である 0xFFFFに達すると停止します。
-このカウンターのクリアは、Error Count Clear Registerによって行います。
+カウンターが上限である 0xFFFF に達すると停止します。
+このカウンターのクリアは、Error Count Clear Register によって行います。
 
 .ECC Correct Data Discard Count Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -147,8 +147,8 @@ ECC Correct Data Discard Count Registerは、エラー修復データの破棄�
 
 === Error Count Clear Register (Offset: 0x002C)
 
-Error Count Clear Registerは、1 Bit ECC Errorカウンター、ECC Correct
-Data Discardカウンターをクリアするためのレジスタです。
+Error Count Clear Register は、1 Bit ECC Error カウンター、ECC Correct
+Data Discard カウンターをクリアするためのレジスタです。
 
 .Error Count Clear Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -161,11 +161,11 @@ Data Discardカウンターをクリアするためのレジスタです。
 
 === ECC Error Address Monitor Register (Offset: 0x0030)
 
-ECC Error Address Monitor Registerは、ECC Errorを検出したアドレスを表示するためのレジスタです。
+ECC Error Address Monitor Register は、ECC Error を検出したアドレスを表示するためのレジスタです。
 
-最後にECC Errorを検出したSRAMのアドレスが表示されます。
-AHB/AXI Busからのリードアクセスが バス幅の 32 bitに対し Unalignedだった場合でも、32 bit境界のアドレスが表示されます。
-また、AXI Busからの読み出しにおいて、ECC Errorを検出した場合、ミラーアドレスである 0x60xxxxxxではなく、メモリの実アドレスである 0x00xxxxxxのアドレスで表示されます。
+最後に ECC Error を検出した SRAM のアドレスが表示されます。
+AHB/AXI Bus からのリードアクセスがバス幅の 32 bit に対し Unaligned だった場合でも、32 bit 境界のアドレスが表示されます。
+また、AXI Bus からの読み出しにおいて、ECC Error を検出した場合、ミラーアドレスである 0x60xxxxxx ではなく、メモリの実アドレスである 0x00xxxxxx のアドレスで表示されます。
 
 .ECC Error Address Monitor Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -177,11 +177,11 @@ AHB/AXI Busからのリードアクセスが バス幅の 32 bitに対し Unalig
 
 === Prefetch Mode Control Register (Offset: 0x0070)
 
-Prefetch Mode Control Registerは、Prefetch機能を設定するためのレジスタです。
+Prefetch Mode Control Register は、Prefetch 機能を設定するためのレジスタです。
 
-Prefetch機能が有効の場合は、PFMDCTLビットの設定により Prefetchの対象として設定されている要因のリードアクセスが発生すると SRAMから Prefetch Bufferにデータを先読みします。
-Prefetch Bufferへのデータの先読みは、リードアクセスが発生したアドレスから 8 word境界までのデータを格納します。
-Prefetchされたアドレス範囲に Prefetchの対象として設定されているリードアクセスがあった場合 SRAMへのデータアクセスは行わず Prefetch Bufferに格納されたデータを返す事でメモリアクセスのパフォーマンスを向上します。
+Prefetch 機能が有効の場合は、PFMDCTL ビットの設定により Prefetch の対象として設定されている要因のリードアクセスが発生すると SRAM から Prefetch Buffer にデータを先読みします。
+Prefetch Buffer へのデータの先読みは、リードアクセスが発生したアドレスから 8 word 境界までのデータを格納します。
+Prefetch されたアドレス範囲に Prefetch の対象として設定されているリードアクセスがあった場合 SRAM へのデータアクセスは行わず Prefetch Buffer に格納されたデータを返す事でメモリアクセスのパフォーマンスを向上します。
 
 .Prefetch Mode Control Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -197,19 +197,19 @@ bit[1]: Dataアクセスにおける Prefetch機能の有効/無効設定 +
 
 === Special Prefetch Enable Register (Offset: 0x0074)
 
-Special Prefetch Enable Registerは、特定のアドレスに対するPrefetch機能を設定するためのレジスタです。
+Special Prefetch Enable Register は、特定のアドレスに対する Prefetch 機能を設定するためのレジスタです。
 
-Special Prefetch Enableビットの設定により、特定のアドレスの Prefetch機能が有効になっている場合、Prefetchの対象として設定されている要因のリードアクセスにより読み出されるアドレスが、Special Prefetch Address Setting Registerに設定されているベースアドレスと一致した場合、そのアクセスを Prefetch対象と判定します。
-Prefetch対象のアクセスが発生した場合、アクセスの発生したアドレスから 8 word境界までのデータを SRAMから Prefetch Bufferに先読みします。
-Prefetchされたアドレス範囲にリードアクセスがあった場合 SRAMへのデータアクセスは行わず Prefetch Bufferに格納されたデータを返す事でメモリアクセスのパフォーマンスを向上します。
+Special Prefetch Enable ビットの設定により、特定のアドレスの Prefetch 機能が有効になっている場合、Prefetch の対象として設定されている要因のリードアクセスにより読み出されるアドレスが、Special Prefetch Address Setting Register に設定されているベースアドレスと一致した場合、そのアクセスを Prefetch 対象と判定します。
+Prefetch 対象のアクセスが発生した場合、アクセスの発生したアドレスから 8 word 境界までのデータを SRAM から Prefetch Buffer に先読みします。
+Prefetch されたアドレス範囲にリードアクセスがあった場合 SRAM へのデータアクセスは行わず Prefetch Buffer に格納されたデータを返す事でメモリアクセスのパフォーマンスを向上します。
 
-Special Pregetch Bufferに格納されたデータは、他のアドレスのリードアクセスにより更新される事は無く、指定されたアドレスの Prefetchデータを保持し続ける事ができます。
-特定アドレスに対する Prefetch機能は 2つのベースアドレスを設定する事ができます。
+Special Pregetch Buffer に格納されたデータは、他のアドレスのリードアクセスにより更新される事は無く、指定されたアドレスの Prefetch データを保持し続ける事ができます。
+特定アドレスに対する Prefetch 機能は 2 つのベースアドレスを設定できます。
 
-CPUから頻繁に読み出されるアドレスがある場合、この機能を使用するとパフォーマンスを向上させる事ができます。
-Prefetch Bufferに格納されているデータに書き込みを行うと、Prefetch Bufferのデータはフラッシュされてしまうため、書き込みが多く発生するアドレスにこの機能を使用しても効果は少なくなってしまいます。
+CPU から頻繁に読み出されるアドレスがある場合、この機能を使用するとパフォーマンスを向上させる事ができます。
+Prefetch Buffer に格納されているデータに書き込みを行うと、Prefetch Buffer のデータはフラッシュされてしまうため、書き込みが多く発生するアドレスにこの機能を使用しても効果は少なくなってしまいます。
 
-尚、Prefetch Mode Control Registerの PFMDCTLフィールドが 2'b00に設定されている場合、本レジスタの設定は無効となります。
+尚、Prefetch Mode Control Register の PFMDCTL フィールドが 2'b00 に設定されている場合、本レジスタの設定は無効となります。
 
 .Special Prefetch Enable Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -225,9 +225,9 @@ Prefetch Bufferに格納されているデータに書き込みを行うと、Pr
 
 === Special Prefetch Address Setting Register 1 (Offset: 0x0080)
 
-Special Prefetch Address Setting Register 1は、Special Prefetch Buffer 1に Prefetchするアドレスを設定するためのレジスタです。
+Special Prefetch Address Setting Register 1 は、Special Prefetch Buffer 1 に Prefetch するアドレスを設定するためのレジスタです。
 
-Special Prefetch Enable Registerの SPPFENB[0]ビットが 1に設定されている場合、本レジスタの設定が有効となります。
+Special Prefetch Enable Register の SPPFENB[0]ビットが 1 に設定されている場合、本レジスタの設定が有効となります。
 
 .Special Prefetch Address Setting Register 1 ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -240,9 +240,9 @@ Special Prefetch Enable Registerの SPPFENB[0]ビットが 1に設定されて�
 
 === Special Prefetch Address Setting Register 2 (Offset: 0x0084)
 
-Special Prefetch Address Setting Register 2は、Special Prefetch Buffer 2に Prefetchするアドレスを設定するためのレジスタです。
+Special Prefetch Address Setting Register 2 は、Special Prefetch Buffer 2 に Prefetch するアドレスを設定するためのレジスタです。
 
-Special Prefetch Enable Registerの SPPFENB[1]ビットが 1に設定されている場合、本レジスタの設定が有効となります。
+Special Prefetch Enable Register の SPPFENB[1]ビットが 1 に設定されている場合、本レジスタの設定が有効となります。
 
 .Special Prefetch Address Setting Register 2 ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -255,7 +255,7 @@ Special Prefetch Enable Registerの SPPFENB[1]ビットが 1に設定されて�
 
 === HRMEM IP Version Register (Offset: 0xF000)
 
-HRMEM IP Version Registerは、HRMEM IPコアのバージョン管理レジスタです。
+HRMEM IP Version Register は、HRMEM IP コアのバージョン管理レジスタです。
 
 .HRMEM IP Version Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]

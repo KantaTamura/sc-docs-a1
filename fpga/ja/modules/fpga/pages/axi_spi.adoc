@@ -1,9 +1,9 @@
 = AXI SPI LogicCORE
 
-AXI SPI は、SPI転送を行うためのIPコアです。
-このコアは標準イメージにおいて、ユーザーが設計する Mission Bus Systemに実装されています。
+AXI SPI は、SPI 転送を行うための IP コアです。
+このコアは標準イメージにおいて、ユーザーが設計する Mission Bus System に実装されています。
 
-採用するIPコアの正式名称は AXI Quad SPI LogicCORE IPですが、Single SPIモードでのみ動作する事ができます。
+採用する IP コアの正式名称は AXI Quad SPI LogicCORE IP ですが、Single SPI モードでのみ動作できます。
 
 このコアは以下のアドレスに配置されています。
 
@@ -14,9 +14,9 @@ AXI SPI は、SPI転送を行うためのIPコアです。
 |AXI SPI | 0x5008_0000
 |===
 
-IPコアの詳細やレジスタの仕様については、AMD (旧Xilinx)が提供する https://docs.amd.com/r/en-US/pg153-axi-quad-spi/Introduction[PG153 AXI Quad SPI LogicCORE IP Product Guide]を参照してください。
+IP コアの詳細やレジスタの仕様については、AMD (旧 Xilinx)が提供する https://docs.amd.com/r/en-US/pg153-axi-quad-spi/Introduction[PG153 AXI Quad SPI LogicCORE IP Product Guide]を参照してください。
 
-AXI SPIに設定されているパラメータは以下の通りです。
+AXI SPI に設定されているパラメータは以下の通りです。
 
 .AXI SPIパラメータ設定
 [cols=",,",options="header",]
