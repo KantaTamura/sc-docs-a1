@@ -183,7 +183,7 @@ QSPI FIFO Reset Register は、TX FIFO/RX FIFO のリセット制御(データ�
 === QSPI Interrupt Status Register (Offset: 0x0020)
 
 QSPI Interrupt Status Register は、QSPI Controller の割り込みステータスレジスタです。
-全ての割り込みビットは ”1"をセットするとクリアできます。
+全ての割り込みビットは `1` をセットするとクリアできます。
 
 .QSPI Interrupt Status Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]

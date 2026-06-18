@@ -26,7 +26,10 @@
   "filters": {
     "comments": true,
     "allowlist": {
-      "allow": ["/^[A-Za-z0-9][A-Za-z0-9 _+\\-/()]*::$/m"]
+      "allow": [
+	    "/^[A-Za-z0-9][A-Za-z0-9 _+\\-/()]*::$/m",
+		"/UG480: 7 シリーズ FPGA および Zynq-7000 All Programmable SoC XADC デュアル 12 ビット 1 MPSPS アナログ-デジタルコンバーター ユーザーズガイド/",
+	  ]
     }
   }
 }
