@@ -566,7 +566,10 @@ I2C クロック(SCL)の Low 期間(tLOW)は、I2C データ(SDA)の Setup/Hold 
 
 この章では、I2C 通信用の I2C Controller のレジスタ制御手順を説明します。
 
-I2C Controller は、マルチマスターに対応する実装のため、I2C Controller と I2C バスを切り離す機能と、I2C Bus を監視する機能を持っています。この仕様により、I2C Enable Register の I2CM_EN ビットが"1"で、且つ I2C Bus が Idle 状態の時のみ I2C 通信を開始できます。 I2CM_EN ビットが"0"、または、I2C Bus が Idle 状態でない場合は、I2C TX FIFO Register にデータが書き込まれても I2C 通信を開始せず、I2CM_EN ビットが"1"、かつ、I2C Bus が Idle 状態になるまで Wait します。
+I2C Controller は、マルチマスターに対応する実装のため、I2C Controller と I2C Bus を切り離す機能と、I2C Bus を監視する機能を持っています。
+この仕様により、I2C Enable Register の I2CM_EN ビットが "1" で、かつ I2C Bus が Idle 状態のときのみ I2C 通信を開始できます。
+I2CM_EN ビットが "0" の場合、または I2C Bus が Idle 状態でない場合、I2C TX FIFO Register にデータが書き込まれても I2C 通信を開始しません。
+I2C Controller は、I2CM_EN ビットが "1" で、かつ I2C Bus が Idle 状態になるまで Wait します。
 
 これ以降のレジスタアクセス手順は、I2CM_EN ビットが "1"で I2C Bus が Idle 状態である事を前提に記載しています。
 
@@ -581,7 +584,7 @@ image::i2cm_write_acc_seq.png[i2cm_write_acc_seq]
 
 * A: TX FIFO (I2C TX FIFO Register の I2CM_TXDATA フィールド) の Bit7-1 へ I2C デバイスのアドレスを書き込み、Bit0 (R/W ビット) へ "0" (送信モード) を書き込みます。I2C Controller は I2C 書き込み動作を開始します。その後、I2C Bus へ Start Condition、TX FIFO に書き込まれたアドレス、R/W ビットの順で送信します。データ送信後の次のサイクルでは、I2C デバイスから ACK を受信します。
 * B: 送信するデータを送信順に 1Byte 単位で TX FIFO に書き込みます。 書き込みが完了したデータから、順次 I2C Bus に送信されます。 なお、I2C デバイスからの ACK 受信は 1 Byte 毎に毎回行います。
-* C: 最終 Byte の送信データを TX FIFO に書き込む時、同時に I2C TX FIFO Register の I2CM_STOP ビットに"1"をセットします。 I2C Controller は、最終 Byte のデータ送信と ACK 受信の完了後に、I2C Bus に STOP Condition を送信し、I2C Interrupt Status Register の I2CM_COMP 割り込みをセットして、書き込み動作を完了します。
+* C: 最終 Byte の送信データを TX FIFO へ書き込むとき、I2C TX FIFO Register の I2CM_STOP ビットを "1" にセットします。I2C Controller は、最終 Byte のデータ送信と ACK 受信が完了した後、I2C Bus へ STOP Condition を送信します。その後、I2C Interrupt Status Register の I2CM_COMP 割り込みをセットして書き込み動作を完了します。
 
 具体的な例として、I2C デバイスのアドレス 0x67 に、0x89, 0xAB, 0xCD, 0xEF のデータを書き込む場合には、I2C TX FIFO Register に以下の書き込みを行います。
 
@@ -629,7 +632,8 @@ image::i2cm_read_acc_seq.png[i2cm_read_acc_seq]
 * B: 受信するデータの Byte 数から 1 を引いた値を TX FIFO に書き込みます。 この時、同時に I2C TX FIFO Register の I2CM_STOP ビットに"1"をセットします。 TX FIFO に設定された Byte 数分のデータを受信し、受信データを RX FIFO へ格納します。 なお、I2C デバイスから 1 Byte のデータを受信するたびに I2C デバイスへ ACK を送信します。
 * C: I2C Controller は、最終 Byte のデータ受信後 NACK を送信し、I2C Bus に Stop Condition を送信します。 また同時に、I2C Interrupt Status Register の I2CM_COMP 割り込みをセットして、読み出し動作を完了します。
 +
-I2C Controller は、最終 Byte のデータ送信と ACK 受信の完了後に、I2C Bus に STOP Condition を送信し、I2C Interrupt Status Register の I2CM_COMP 割り込みをセットして、書き込み動作を完了します。
+I2C Controller は、最終 Byte のデータ送信と ACK 受信の完了後に、I2C Bus に STOP Condition を送信します。
+その後、I2C Interrupt Status Register の I2CM_COMP 割り込みをセットして書き込み動作を完了します。
 
 具体的な例として、I2C デバイスのアドレス 0x67 から 4 Byte のデータ読み出す場合は、I2C TX FIFO Register に以下の書き込みを行います。
 

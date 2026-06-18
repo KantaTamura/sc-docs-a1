@@ -139,7 +139,9 @@ SPI デバイスが要求するダミーサイクルは、このレジスタに�
 
 QSPI Access Status Register は、QSPI Controller の実行ステータスを確認するためのレジスタです。
 
-QSPI Controller は、QSPI TX Data Register への書き込み、QSPI Rx Data Register への書き込み、QSPI Access Control Register の SPI SS Control レジスタの書き込み時に Busy 状態となり、SPI が未使用状態になると Idle 状態に戻ります。
+QSPI Controller は、QSPI TX Data Register または QSPI Rx Data Register への書き込みが行われると Busy 状態となります。
+また、QSPI Access Control Register の SPI SS Control レジスタに書き込まれたときも Busy 状態となります。
+SPI が未使用状態になると、QSPI Controller は Idle 状態に戻ります。
 
 .QSPI Access Status Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]

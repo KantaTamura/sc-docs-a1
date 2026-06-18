@@ -1148,8 +1148,8 @@ Full 状態になるまで待つ必要があります。
 
 3: CAN TX Message Register 1 へ送信メッセージの Standard Message ID
 (ID1[10:0]), Standard Remote Transmission Request (SRTR), Identifier
-Extension (IDE), Extended Message ID (ID2[17:0]), Extended Remote
-Transmission Request (ERTR)フィールドを設定します。
+Extension (IDE), Extended Message ID (ID2[17:0]) and Extended Remote
+Transmission Request (ERTR) フィールドを設定します。
 標準フレームを送信する場合は IDE ビットを
 "0"に、拡張フレームを送信する場合は SRTR ビットと IDE ビットをそれぞれ
 "1"に設定する必要があります。
