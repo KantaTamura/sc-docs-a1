@@ -52,7 +52,7 @@ ECC Error Collect Enable Register は、1bit ECC エラー検出時にメモリ�
 
 === Memory Scrubing Control Register (Offset: 0x0008)
 
-Memory Scrubing Control Register は、メモリスクラビング機能の設定を行うためのレジスタです。
+Memory Scrubing Control Register は、メモリスクラビング機能の設定用レジスタです。
 このレジスタの Memory Scrubing Enable を ON にすると、SRAM の全フィールドの定期的な読み出し行い書き込まれたデータのチェックを行います。
 
 メモリスクラビング機能は、SRAM の全領域のデータに対し定期的なエラーチェックを行う機能です。
@@ -101,7 +101,7 @@ HRMEM Interrupt Status Register は、HRMEM の割り込みステータスレジ
 
 === HRMEM Interrupt Enable Register (Offset: 0x0014)
 
-HRMEM Interrupt Enable Register は、HRMEM の動作において発生した割り込みイベントを割り込み出力信号に通知するか設定するためのレジスタです。
+HRMEM Interrupt Enable Register は、HRMEM の動作において発生した割り込みイベントを割り込み出力信号に通知するかを設定するためのレジスタです。
 
 .HRMEM Interrupt Enable Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]

@@ -109,7 +109,7 @@ PLL Information Register は、システムクロックの設定状況を示す�
 
 === Configuration Flash Memory Register (Offset 0x0010)
 
-Configuration Flash Memory Register は SC-OBC-A1 Module に実装される 2 つの Configuration Flash Memory (NOR FLash Memory)に関する制御を行うためのレジスタです。
+Configuration Flash Memory Register は SC-OBC-A1 Module に実装される 2 つの Configuration Flash Memory (NOR FLash Memory)に関する制御用レジスタです。
 
 .Configuration Flash Memory Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -152,7 +152,7 @@ SC-OBC-A1 FPGA が Configuration し TRCH が FPGA の起動完了を認識す�
 この仕様により、SC-OBC-A1 FPGA が Configuration するための Memory は TRCH によって選択されます。
 
 TRCH が FPGA の起動完了を認識すると、Configuration Flash Memory の制御権は FPGA に移行します。
-FPGA は CFGMEMSEL ビットの設定によって、ソフトウェアによる選択を行うか、QSPI コアによる選択を行うかを決定します。
+FPGA は CFGMEMSEL ビットの設定によって、ソフトウェアで選択するか、QSPI コアで選択するかを決定します。
 
 Configuration Flash Memory の選択を切り替える場合は、CFGMEMSEL ビットの値を変更後、CFGMEMMON ビットを読み出し切り替えが完了した事を確認してください。
 Configuration Flash Memory へのアクセス開始は、必ず CFGMEMMON ビットが切り替わった後に開始してください。
@@ -236,16 +236,16 @@ TRCHによる FPGAの Power Cycleが実行されます。このビットへの
 
 === Power Management Register (Offset 0x0030)
 
-Power Management Register は、SC-OBC-A1 FPGA の低電力制御を行うためのレジスタです。
+Power Management Register は、SC-OBC-A1 FPGA の低電力制御用レジスタです。
 
-このレジスタは、CPU が WFI (Wait For Interrupt)命令や WFE (Wait For Event)命令を実行したときに遷移する、Sleep モードにおける SC-OBC-A1 FPGA の状態を決定します。
-WFI 命令や WFE 命令を実行すると、CPU は条件によって Sleep モードに遷移し命令の実行を停止します。
+このレジスタは、CPU が WFI (Wait For Interrupt)命令や WFE (Wait For Event)命令で遷移する、Sleep モードにおける SC-OBC-A1 FPGA の状態を決定します。
+WFI 命令や WFE 命令を発行すると、CPU は条件によって Sleep モードに遷移し命令の実行を停止します。
 
 PWRDOWNEN がセットされた状態で CPU が Sleep モードに遷移すると、システムクロックを生成する PLL は停止状態になります。
 PWRDOWNEN がセットされていない状態では、CPU が Sleep モードに遷移しても、PLL は停止しません。
 
 PLL が停止すると、UART や QSPI Controller などのクロックも停止します。
-したがって、低消費電力化のため PWRDOWNEN をセットして WFI 命令を実行する場合は、全ての Peripheral のデータ転送が完全に完了した後で、WFI 命令を実行してください。
+したがって、低消費電力化のため PWRDOWNEN をセットして WFI 命令を発行する場合は、全ての Peripheral のデータ転送が完全に完了した後で、WFI 命令を発行してください。
 
 .Power Management Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]

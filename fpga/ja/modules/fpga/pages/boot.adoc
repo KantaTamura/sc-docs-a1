@@ -6,7 +6,7 @@ SC-OBC Module A1 は、FPGA の Bitstream データと Flight Software を NOR F
 
 ひとつの NOR Flash Memory には、Golden と Update の 2 つのデータセットを想定しています。
 
-Golden は、実績のあるデータを書き込みます。この領域は宇宙機の打ち上げ前に書き込み、以後書き換えを行わない事を想定しています。
+Golden は、実績のあるデータを書き込みます。この領域は宇宙機の打ち上げ前に書き込み、以後書き換えない事を想定しています。
 Update は、軌道上での書き換えを想定しています。
 もしも、Update データに問題がある場合は、Golden に書き込まれたデータによって、Update データを復旧します。
 

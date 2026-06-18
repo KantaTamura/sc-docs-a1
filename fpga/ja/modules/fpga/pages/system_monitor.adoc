@@ -16,7 +16,7 @@ TRCH は FPGA が出力する FPGA_WATCHDOG 信号が定期的にトグルして
 
 == SEM Controller
 
-SEM (Soft Error Mitigation) Controller は、AMD (旧 Xilinx) FPGA のコンフィギュレーションメモリで発生したソフトエラーの検出及び訂正を行う、AMD (旧 Xilinx) から提供されるソリューションです。
+SEM (Soft Error Mitigation) Controller は、AMD (旧 Xilinx) FPGA のコンフィギュレーションメモリで発生したソフトエラーの検出及び訂正をする、AMD (旧 Xilinx) から提供されるソリューションです。
 SC-OBC-A1 FPGA はこの機能をシステムに組み込み、SEM Controller の状態を System Monitor のレジスタから読み出す機能を持っています。
 
 CPU が正常に動作している場合でも、SEM Controller が訂正不能なエラーを検出した場合や、SEM Controller 自体に障害が発生した場合には、SC-OBC-A1 FPGA に深刻な障害が発生する可能性があります。
@@ -142,7 +142,7 @@ I2C の通信速度は、必ず Standard-mode (100Kb/s)以下にしてくださ�
 BHM Prescaler Register の初期値は、システムクロックが 48 MHz の場合に 100 Kb/s となる 0x77 に設定されています。
 システムクロックが 48 MHz の場合は、特に理由が無い限り設定値を 0x77 のままにしてください。
 . BHM Retry Count Register に I2C 通信のリトライ回数を設定します
-BHM は、I2C 通信を行ったときにエラーを検出すると、このレジスタで設定した回数の自動リトライを行います。
+BHM は、I2C 通信時にエラーを検出すると、このレジスタで設定した回数だけ自動リトライします。
 BHM Retry Count Register の初期値はリトライ回数 "2"に設定されています。
 . BHM Interrupt Enable Register に割り込みの有効化設定をします本手順を実行するためには、最低限 Bit 0 と Bit 13:8 を設定してください。
 . BHM Initialization Access Control Register の書き込み、センサーデバイスの書き込みを開始します
@@ -156,14 +156,14 @@ I2CERR ビットがセットされている場合、手順 2 で設定した I2C
 レジスタの設定は、必ず次の通りに設定してください。
 GPTMR_HITRUNMD ビットを Restart モード (設定値 0b0)、GPTMR_HITOPMD2/GPTMR_HITOPMD3 フィールド パルス割り込み出力 (設定値 0b10)。
 GPTMR_HITOPMD2 の設定は Current Voltage Monitor からのデータを取得するために設定する必要があり、GPTMR_HITOPMD3 の設定は温度センサーからデータを取得するために設定する必要があります。
-. Hardware Interrupt Timer Prescaler Register に、Hardware Interrupt Timer のプリスケーラー設定を行います Hardware Interrupt Timer の動作クロックは 24 MHz です。 設定方法の詳細は Hardware Interrupt Timer のレジスタ設定を参照してください。
+. Hardware Interrupt Timer Prescaler Register に、Hardware Interrupt Timer のプリスケーラーを設定します Hardware Interrupt Timer の動作クロックは 24 MHz です。 設定方法の詳細は Hardware Interrupt Timer のレジスタ設定を参照してください。
 . Hardware Interrupt Timer Output Compare Register 1 に、Hardware Interrupt Timer の周期を設定します
 . Hardware Interrupt Timer Output Compare Register 2 に、Current Voltage Monitor のセンサーデータ取得タイミングを設定します
 . Hardware Interrupt Timer Output Compare Register 3 に、温度センサーのセンサーデータ取得タイミングを設定します
 . BHM Access Control Register の MONIEN ビットを "1"にセットし、各センサーからのデータの自動取得を有効化します
 . Timer Enable Control Register の HITEN ビットを"1"に設定し、Hardware Interrupt Timer の動作を開始します
 
-12、13 の処理が完了すると、BHM は Hardware Interrupt Timer が生成するタイミングで、センサーに対し I2C 通信を行いセンサーデータを取得します。
+12、13 の処理が完了すると、BHM は Hardware Interrupt Timer が生成するタイミングで、センサーに対し I2C 通信し、センサーデータを取得します。
 BHM がセンサーデバイスから取得したデータは、Monitor Register に格納されます。
 
 以下に Hardware Interrupt Timer の周期を 1 秒とし、Current Voltage Monitor の読み出しタイミングを 100 ms、温度センサーの読み出しタイミングを 200 ms とした場合のレジスタ設定を示します。
@@ -196,11 +196,11 @@ image::bhm_sensor_init.png[bhm_sensor_init]
 INIT_REQ ビットをセットされると、Initialization Enable がセットされたセンサーデバイスへの初期化のための I2C アクセスが開始されます。
 . BHM によるセンサーデバイスへの書き込みアクセスの完了は、SYSMON_BHMINT 割り込みのアサートにより検出できます。
 割り込みを検出したとき、BHM Interrupt Status Register の BHM_INITACCEND ビットがセットされている場合、センサーデバイスの初期化のための I2C アクセスが完了した事を示します。
-BHM_INITACCEND がセットされたときは、I2CERR ビットの確認を行い I2C アクセスにエラーが発生したかどうかを確認します。
+BHM_INITACCEND がセットされたときは、I2CERR ビットを確認し I2C アクセスにエラーが発生したかどうかを確認します。
 I2CERR ビットがセットされていないとき、そのセンサーデバイスのアクセスは正常に完了したと判断できます。
 . Board Health Interrupt Status Register の BHM_SWACCEND ビットに "1"を書き込むと、BHM_SWACCEND ビットをクリアできます。
 
-以下に、初期設定を行うセンサーデバイス、デバイスアドレス、初期設定値の一覧を示します。
+以下に、初期設定するセンサーデバイス、デバイスアドレス、初期設定値の一覧を示します。
 尚、初期設定値は、RTL 設計において Verilog Parameter で変更できます。
 
 .デバイス初期設定一覧 (default)
@@ -319,7 +319,7 @@ System Monitor は、Base Address 0x4F04_0000 に配置されています。
 
 === Watchdog Control Register (Offset 0x0000)
 
-Watchdog Control Register は、SC-OBC-A1 FPGA の Watchdog の制御を行うためのレジスタです。
+Watchdog Control Register は、SC-OBC-A1 FPGA の Watchdog の制御用レジスタです。
 本レジスタにより Watchdog Counter の満了時間の設定や、Software Watchdog Timer をリロードできます。
 
 システムの起動後、SC-OBC-A1 FPGA の Watchdog Timer 回路は、TRCH に対し Watchdog 信号のトグルを開始します。
@@ -344,7 +344,7 @@ Software Watchdog Timer が満了すると、SC-OBC-A1 FPGA の Watchdog Timer �
 0x6: 64 [sec] +
 0x7: 128 [sec] |R/W
 |15:0  |WDOG_WSR    |Watchdog Service Register |Software Watchdog Timerをリロードするためのフィールドです。
-0x5A5Aと 0xA5A5を交互に書き込む事で、Software Watchdog Timerをリロードする事ができます。
+0x5A5Aと 0xA5A5を交互に書き込む事で、Software Watchdog Timerをリロードできます。
 このフィールドを読み出すと、Software Watchdog Timerをリロードするために次に書き込む値(0x5A5A または 0xA5A5)を読み出す事ができます。 |R/W
 |===
 
@@ -433,7 +433,7 @@ Flight Software は、起動時にこのレジスタを読み出す事で、ハ�
 System Monitor Interrupt Status Register は、System Monitor の割り込みステータスレジスタです。
 それぞれのビットは"1"をセットすると、割り込みをクリアできます。
 
-SEM Controller の異常を示すビット (bit 9、bit 10、bit 11)は、"1"をセットすると割り込みをクリアする事はできますが、SEM Controller の異常が取り除かれるわけではないため、システムの再起動を行う必要があります。
+SEM Controller の異常を示すビット (bit 9、bit 10、bit 11)は、"1"をセットすると割り込みをクリアできますが、SEM Controller の異常が取り除かれるわけではないため、システムの再起動が必要があります。
 
 .System Monitor Interrupt Status Registerビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -458,7 +458,7 @@ SEM Current State Registerの全ての有効ビットがセットされたとき
 
 === System Monitor Interrupt Enable Register (Offset 0x0034)
 
-System Monitor Interrupt Enable Register は、System Monitor が監視するイベントを割り込み出力信号に通知するか設定するためのレジスタです。
+System Monitor Interrupt Enable Register は、System Monitor が監視するイベントを割り込み出力信号に通知するかを設定するためのレジスタです。
 
 .System Monitor Interrupt Enable Registerビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -580,7 +580,7 @@ XADC Register Field は、SC-OBC-A1 FPGA に搭載されている AMD (旧 Xilin
 
 XADC は AMD (旧 Xilinx) 7 シリーズ FPGA に搭載される ADC モジュールです。
 XADC には 12 bit、毎秒 1 M サンプルの ADC とオンチップセンサーが含まれています。
-SC-OBC-A1 FPGA では、XADC のレジスタを読み出す事により、FPGA のダイの温度と入力電源の監視を行う事ができます。
+SC-OBC-A1 FPGA では、XADC のレジスタを読み出す事により、FPGA のダイの温度と入力電源を監視できます。
 
 XADC の詳細は AMD (旧 Xilinx) のドキュメント (UG480: 7 シリーズ FPGA および Zynq-7000 All Programmable SoC XADC デュアル 12 ビット 1 MPSPS アナログ-デジタルコンバーター ユーザーズガイド)を参照してください。
 
@@ -608,7 +608,7 @@ System Monitor の XADC Register Window からは、XADC のすべてのレジ�
 
 === BHM Initialization Access Control Register (Offset 0x2000)
 
-BHM Initialization Access Control Register は、OBC Module に実装するセンサーの初期化に関する制御を行うためのレジスタです。
+BHM Initialization Access Control Register は、OBC Module に実装するセンサーの初期化に関する制御用レジスタです。
 Board Health Monitor は、このレジスタを制御することによって、センサーに対し初期化のためのレジスタアクセスを実行します。
 
 Initialization Request ビットを "1"にセットすると、Initialization Enable ビットが "1"にセットされているセンサーに初期化を行います。
@@ -643,7 +643,7 @@ Initialization Request ビットと Initialization Enable ビットは、同時�
 
 === BHM Access Control Register (Offset 0x2004)
 
-BHM Access Control Register は、OBC Module に実装するセンサーからのセンサーデータの自動読み出しに関する設定を行うためのレジスタです。
+BHM Access Control Register は、OBC Module に実装するセンサーからのセンサーデータの自動読み出しに関する設定用レジスタです。
 
 対象のセンサーの Monitor Enable ビットを "1"にセットしておくと、GPTMR モジュールに実装する Hardware Scheduler からタイミングパルスを受信するたびに、対応するセンサーからデータを読み出します。
 
@@ -652,19 +652,19 @@ BHM Access Control Register は、OBC Module に実装するセンサーから�
 |===
 |bit  |Symbol          |Field                                   |Description |R/W
 |31:5 |-               |Reserved                                |Reserved |-
-|4    |BHM_TEMP3MONIEN |Temperature Sensor 3 Monitor Enable     |Temperature Sensor 3からセンサーデータを読み出すための設定を行うビットです。 このビットが "1"にセットされている時に Hardware Schedulerからタイミングパルスを受信すると、Temperature Sensor 3から温度データを読み出します。BHM_TEMP3I2CERR 割り込みが発生した場合、このビットは自動的に"0"にクリアされます。 +
+|4    |BHM_TEMP3MONIEN |Temperature Sensor 3 Monitor Enable     |Temperature Sensor 3からセンサーデータを読み出すための設定ビットです。 このビットが "1"にセットされている時に Hardware Schedulerからタイミングパルスを受信すると、Temperature Sensor 3から温度データを読み出します。BHM_TEMP3I2CERR 割り込みが発生した場合、このビットは自動的に"0"にクリアされます。 +
 0: Temperature Sensor 3 Monitor Disable +
 1: Temperature Sensor 3 Monitoring Enable |R/W
-|3    |BHM_TEMP2MONIEN |Temperature Sensor 2 Monitor Enable     |Temperature Sensor 2からセンサーデータを読み出すための設定を行うビットです。 このビットが "1"にセットされている時に  Schedulerからタイミングパルスを受信すると、Temperature Sensor 2から温度データを読み出します。BHM_TEMP2I2CERR 割り込みが発生した場合、このビットは自動的に"0"にクリアされます。 +
+|3    |BHM_TEMP2MONIEN |Temperature Sensor 2 Monitor Enable     |Temperature Sensor 2からセンサーデータを読み出すための設定ビットです。 このビットが "1"にセットされている時に  Schedulerからタイミングパルスを受信すると、Temperature Sensor 2から温度データを読み出します。BHM_TEMP2I2CERR 割り込みが発生した場合、このビットは自動的に"0"にクリアされます。 +
 0: Temperature Sensor 2 Monitor Disable +
 1: Temperature Sensor 2 Monitoring Enable |R/W
-|2    |BHM_TEMP1MONIEN |Temperature Sensor 1 Monitor Enable     |Temperature Sensor 1からセンサーデータを読み出すための設定を行うビットです。このビットが "1"にセットされている時に Hardware Schedulerからタイミングパルスを受信すると、Temperature Sensor 1から温度データを読み出します。BHM_TEMP1I2CERR 割り込みが発生した場合、このビットは自動的に"0"にクリアされます。 +
+|2    |BHM_TEMP1MONIEN |Temperature Sensor 1 Monitor Enable     |Temperature Sensor 1からセンサーデータを読み出すための設定ビットです。このビットが "1"にセットされている時に Hardware Schedulerからタイミングパルスを受信すると、Temperature Sensor 1から温度データを読み出します。BHM_TEMP1I2CERR 割り込みが発生した場合、このビットは自動的に"0"にクリアされます。 +
 0: Temperature Sensor 1 Monitor Disable +
 1: Temperature Sensor 1 Monitoring Enable |R/W
-|1    |BHM_CVM2MONIEN |Current Voltage Monitor 2 Monitor Enable |Current Voltage Monitor 2からセンサーデータを読み出すための設定を行うビットです。このビットが "1"にセットされている時に Hardware Schedulerからタイミングパルスを受信すると、Current Voltage Monitor 2からシャント電圧とバス電圧データを読み出します。BHM_CVM2I2CERR 割り込みが発生した場合、このビットは自動的に"0"にクリアされます。 +
+|1    |BHM_CVM2MONIEN |Current Voltage Monitor 2 Monitor Enable |Current Voltage Monitor 2からセンサーデータを読み出すための設定ビットです。このビットが "1"にセットされている時に Hardware Schedulerからタイミングパルスを受信すると、Current Voltage Monitor 2からシャント電圧とバス電圧データを読み出します。BHM_CVM2I2CERR 割り込みが発生した場合、このビットは自動的に"0"にクリアされます。 +
 0: Current Voltage Monitor 2 Monitor Disable +
 1: Current Voltage Monitor 2 Monitoring Enable |R/W
-|0    |BHM_CVM1MONIEN |Current Voltage Monitor 1 Monitor Enable |Current Voltage Monitor 1からセンサーデータの読み出すための設定を行うビットです。このビットが "1"にセットされている時に Hardware Schedulerからタイミングパルスを受信すると、Current Voltage Monitor 1からシャント電圧とバス電圧データを読み出します。BHM_CVM1I2CERR 割り込みが発生した場合、このビットは自動的に "0"にクリアされます。 +
+|0    |BHM_CVM1MONIEN |Current Voltage Monitor 1 Monitor Enable |Current Voltage Monitor 1からセンサーデータを読み出すための設定ビットです。このビットが "1"にセットされている時に Hardware Schedulerからタイミングパルスを受信すると、Current Voltage Monitor 1からシャント電圧とバス電圧データを読み出します。BHM_CVM1I2CERR 割り込みが発生した場合、このビットは自動的に "0"にクリアされます。 +
 0: Current Voltage Monitor 1 Monitor Disable +
 1: Current Voltage Monitor 1 Monitoring Enable |R/W
 |===
@@ -697,7 +697,7 @@ Monitor の割り込みステータスレジスタです。 それぞれのビ�
 
 === BHM Interrupt Enable Register (Offset: 0x2014)
 
-BHM Interrupt Enable Register は、Board Health Monitor の割り込みイベントを割り込み信号に通知する設定を行うためのレジスタです。
+BHM Interrupt Enable Register は、Board Health Monitor の割り込みイベントを割り込み信号に通知するための設定レジスタです。
 
 本レジスタのビットが "1"にセットされている時、その割り込み要因に対応する Interrupt Status Register のビットが "1"にセットされると、割り込み信号がアサートします。
 
@@ -968,7 +968,7 @@ Bit 15:4に格納されます。 |RO
 
 === BHM Software Access Control Register (Offset 0x2060)
 
-BHM Software Access Control Register は、ソフトウェア指示によりセンサーの任意のレジスタにアクセスするための制御を行うレジスタです。
+BHM Software Access Control Register は、ソフトウェア指示によりセンサーの任意のレジスタにアクセスするための制御用レジスタです。
 
 BHM は Software I2C Access Request (BHM_SWACCREQ)に "1"をセットすると、BHM_SWDEVSEL・BHM_SWREGADR・BHM_SWRWSEL に設定された情報をもとにアクセスを行います。
 BHM_SWACCREQ と他の設定フィールドは、同時にセットできます。

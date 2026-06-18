@@ -1,6 +1,6 @@
 = AXI SPI LogicCORE
 
-AXI SPI は、SPI 転送を行うための IP コアです。
+AXI SPI は、SPI 転送用の IP コアです。
 このコアは標準イメージにおいて、ユーザーが設計する Mission Bus System に実装されています。
 
 採用する IP コアの正式名称は AXI Quad SPI LogicCORE IP ですが、Single SPI モードでのみ動作できます。

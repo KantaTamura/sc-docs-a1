@@ -1,7 +1,7 @@
 = QSPI Controller
 
-QSPI Controllerは、SC OBCモジュールに搭載するメモリとSPIプロトコルによる通信を行うためのモジュールです。
-QSPI Controllerは、Single SPIモード, Dual SPIモード, Quad SPIモードに対応しており、メモリとの高速な通信を行う事ができます。
+QSPI Controllerは、SC OBCモジュールに搭載するメモリとSPIプロトコルで通信するためのモジュールです。
+QSPI Controllerは、Single SPIモード, Dual SPIモード, Quad SPIモードに対応しており、メモリと高速に通信できます。
 
 SC OBCモジュールには、FPGAの Configurationデータを格納するためのNOR Flashメモリ (Configuration Flash Memory)と、運用データを格納するための NOR Flashメモリ (Data Store Flash Memory)及び FRAMが搭載されています。
 これに対し QSPI Controllerは 3個搭載されています。
@@ -61,7 +61,7 @@ QSPI Controller には以下のレジスタが実装されています。
 
 QSPI Access Control Register は、SPI アクセスにおける SS 信号、I/O モードを制御するためのレジスタです。
 
-Data Store Memory と FRAM の制御を行う QSPI Controller は、2 つのメモリへのアクセスの切り替えを SPISSCTL ビットで行います。
+Data Store Memory と FRAM を制御する QSPI Controller は、2 つのメモリへのアクセスの切り替えを SPISSCTL ビットで行います。
 メモリへのアクセスを開始するときは、SPISSCTL を 0b01 または 0b10 に設定し、アクセス対象の SS 信号をアサートします。
 SPISSCTL を 0b11 に設定することは禁止です。
 
@@ -132,7 +132,7 @@ SPI デバイスが要求するダミーサイクルは、このレジスタに�
 |===
 |bit  |Symbol    |Field       |Description                                                                                                                                                          |R/W
 |31:8 |-         |Reserved    |Reserved                                                                                                                                                             |-
-|7:0  |SPIRXDATA |SPI Rx Data |このレジスタへの書き込み時は、SPIクロックを送信しデバイスからのデータ受信を行います。このレジスタの読み出し時は、RX FIFOに格納されたデータが古い順に読み出されます。 |R/W
+|7:0  |SPIRXDATA |SPI Rx Data |このレジスタへの書き込み時は、SPI クロックを送信し、デバイスからデータを受信します。このレジスタの読み出し時は、RX FIFOに格納されたデータが古い順に読み出されます。 |R/W
 |===
 
 === QSPI Access Status Register (Offset 0x000C)
@@ -207,7 +207,7 @@ QSPI Interrupt Status Register は、QSPI Controller の割り込みステータ
 
 === QSPI Interrupt Enable Register (Offset: 0x0024)
 
-QSPI Interrupt Enable Register は、QSPI Controller の割り込みイベントを割り込み信号に通知する設定を行うためのレジスタです。
+QSPI Interrupt Enable Register は、QSPI Controller の割り込みイベントを割り込み信号に通知するための設定レジスタです。
 
 .QSPI Interrupt Enable Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -323,14 +323,14 @@ B::
 C::
   B で書き込んだ全てのデータの送信完了後に、QSPI Access Control Register に 0x00020001 を書き込み、SPI I/O Mode を Quad-IO SPI モードに変更します。
 D::
-  Flash Memory への Write データを QSPI TX Data Register に書き込み、データ送信を行います。
-  TX FIFO は送信するデータを最大 16Byte までできますます。
+  Flash Memory への Write データを QSPI TX Data Register に書き込み、データを送信します。
+  TX FIFO は送信するデータを最大 16Byte まで格納できます。
   TX FIFO の容量を超えるサイズのデータを送信する場合は、TX FIFO が Overflow しないよう QSPI TX Data Register への書き込み間隔を調整する必要があります。
-  TX_FIFO のデータ格納量のステータスは、QSPI FIFO Status Register や TX_FIFO 関連の割り込み要できますとができます。
+  TX_FIFO のデータ格納量のステータスは、QSPI FIFO Status Register や TX_FIFO 関連の割り込みにより確認できます。
 E::
   D で書き込んだ全てのデータの送信完了後に、QSPI Access Control Register に 0x0000_0000 を書き込み SPICS 信号をインアクティブ状態(High level)に変化させ、SPI アクセスを終了します。
 
-C から D 時の遷移を除いた全てのフェーズの切り替わりには、QSPI Controller の実行ステータスを確認し、必ず Idle 状態となってから次の操作を実行する必要があります。
+C から D 時の遷移を除いた全てのフェーズの切り替わりには、QSPI Controller の実行ステータスを確認し、必ず Idle 状態となってから次の操作をする必要があります。
 実行ステータスの確認方法は以下の 2 通りがあります。
 
 * QSPI Access Status Register の監視
@@ -361,7 +361,7 @@ D::
   QSPI TX Data Register に 3 Byte の Address、1 Byte の Mode を 1 Byte 単位で書き込み、TX FIFO に格納します。
   QSPI TX Data Register に書き込まれたデータから SPI デバイスに順次送信されます。
   続けて、QSPI RX Data Register に 4 Byte 分の書き込みを行います。
-  この操作を行うことで、8 Cycle のダミーサイクル区間で IO 信号を入力モードにして SPI クロックを駆動します。
+  この操作により、8 Cycle のダミーサイクル区間で IO 信号を入力モードにして SPI クロックを駆動します。
 E::
   QSPI RX Data Register の読み出しを 4 Byte 分行い、ダミーサイクル区間に RX FIFO に格納されたデータの読み出しを行います。
   ダミーサイクル区間に格納されたデータは全て無効なデータであるため破棄してください。
@@ -369,8 +369,8 @@ E::
   受信データは QSPI RX Data Register を読み出すことにより受信順に取得されます。
   RX FIFO は受信したデータを最大 16Byte まで格納できます。
   RX FIFO の容量を超えるサイズのデータを受信する場合は、RX FIFO が Overflow しないよう QSPI TX Data Register の書き込みと読み出しの順序を考慮する必要があります。
-  RX_FIFO のデータ格納量のステータスは、QSPI FIFO Status Register や RX_FIFO 関連できますり確認することができます。
+  RX_FIFO のデータ格納量のステータスは、QSPI FIFO Status Register や RX_FIFO 関連の割り込みにより確認できます。
 F::
   E で受信した全てのデータ読み出しの完了後に、QSPI Access Control Register に 0x00000000 を書き込み SPI_CS 信号をインアクティブ状態 (High level)に変化させ、SPI アクセスを終了します。
 
-Data Write Operation 時と同様、C から D 時を除いた全てのフェーズの切り替わり時には、QSPI Controller の実行ステータスを確認し、必ず Idle 状態となってから次の操作を実行する必要があります。
+Data Write Operation 時と同様、C から D 時を除いた全てのフェーズの切り替わり時には、QSPI Controller の実行ステータスを確認し、必ず Idle 状態となってから次の操作をする必要があります。

@@ -136,8 +136,7 @@ Rx FIFOの有効データ格納状態を示します。 +
 
 === Control Register (Offset 0x000C)
 
-Control Register は、Tx FIFO/Rx
-FIFO のリセット制御と割り込み通知の設定を行うためのレジスタです。
+Control Register は、Tx FIFO と Rx FIFO のリセット制御および割り込み通知を設定するレジスタです。
 
 .Control Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
