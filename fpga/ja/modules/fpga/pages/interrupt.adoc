@@ -1,6 +1,6 @@
 = Interrupt
 
-SC-OBC-A1 FPGA では、IP コアからの割り込みを CPU に通知するために、
+SC-OBC-A1 FPGA では、IP コアからの割り込みを CPU へ通知するため、
 Cortex-M3 内蔵の割り込みコントローラ (NVIC) の外部割り込み入力を使用します。
 
 Cortex-M3 の割り込みコントローラの仕様については、

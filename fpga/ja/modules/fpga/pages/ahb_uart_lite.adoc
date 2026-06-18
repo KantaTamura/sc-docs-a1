@@ -69,8 +69,7 @@ Tx FIFO は送信するデータを 1 Byte 単位で最大 16 エントリまで
 Status Register は、AHB UART Lite の Error や
 FIFO のステータスを確認するためのレジスタです。
 
-Control Register の INTENACTL が
-"1"にセットされている時、RXFIFOVAL ビット・TXFIFOEMP ビット・RXUNDERRUNERR ビット・TXOVERRUNERR ビットのいずれかが "0"から "1"に変化するたびに CPU に対しエッジ割り込みが出力されます。
+Control Register の INTENACTL が "1" の場合、RXFIFOVAL ビット、TXFIFOEMP ビット、RXUNDERRUNERR ビット、TXOVERRUNERR ビットのいずれかが "0" から "1" に変化すると、エッジ割り込みが CPU へ出力されます。
 
 .Status Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]

@@ -19,7 +19,7 @@ TRCH は FPGA が出力する FPGA_WATCHDOG 信号が定期的にトグルして
 SEM (Soft Error Mitigation) Controller は、AMD (旧 Xilinx) FPGA のコンフィギュレーションメモリで発生したソフトエラーの検出及び訂正をする、AMD (旧 Xilinx) から提供されるソリューションです。
 SC-OBC-A1 FPGA はこの機能をシステムに組み込み、SEM Controller の状態を System Monitor のレジスタから読み出す機能を持っています。
 
-CPU が正常に動作している場合でも、SEM Controller が訂正不能なエラーを検出した場合や、SEM Controller 自体に障害が発生した場合には、SC-OBC-A1 FPGA に深刻な障害が発生する可能性があります。
+CPU は正常に動作していても、SEM Controller が訂正不能エラーを検出した場合や SEM Controller 自体の異常時には、SC-OBC-A1 FPGA の深刻な障害につながる可能性があります。
 そのため、深刻な障害が発生する前に再起動することにより、システムを健全な状態に保つ事が可能です。
 
 SC-OBC-A1 FPGA は以下の構成で SEM Controller を実装しています。
@@ -56,7 +56,7 @@ SEM Controller がコンフィギュレーションメモリに訂正不能な�
 * SEM Halted Interrupt
 
 SEM Controller が Halt した事を示す通知ビットです。
-この割り込みは何らかの異常により、SEM Controller に自体に障害が起き、動作を停止した事を示します。
+この割り込みは、何らかの異常により SEM Controller 自体に障害が発生し、動作を停止したことを示します。
 このエラーが発生した後は、SEM Controller によるコンフィギュレーションメモリのエラー検出と訂正は行われません。
 そのため、このエラーが発生した場合はシステムを再起動する事を推奨します。
 
@@ -238,7 +238,7 @@ I2CERR ビットがセットされていないとき、そのセンサーデバ�
 
 === ソフトウェア指示によるセンサーデバイスへの I2Cアクセス
 
-この章では、SC-OBC-A1 FPGA に実装されるセンサーデバイス (Current Voltage Monitor 及び温度センサー)に、ソフトウェアの指示によりアクセスする方法を説明します。
+この章では、SC-OBC-A1 FPGA に実装されるセンサーデバイス (Current Voltage Monitor および温度センサー) へ、ソフトウェアからアクセスする方法を説明します。
 
 BHM は、RTL に指定する Verilog parameter の値に従い、センサーデバイスのレジスタを初期化する機能を持っています。
 この機能とは別に、センサーデバイスのレジスタに対し任意の I2C アクセスを行いたい場合は、ソフトウェア指示によるセンサーデバイスへのアクセスを行います。
@@ -256,7 +256,7 @@ BHM_SWACCREQ ビットが "1"にセットされた事をきっかけに、BHM �
 . BHM によるセンサーデバイスへの書き込みアクセスの完了は、SYSMON_BHMINT 割り込みのアサートにより検出できます。
 割り込みを検出したとき、BHM Interrupt Status Register の BHM_SWACCEND ビットがセットされている場合、ソフトウェア指示によるセンサーデバイスへの I2C アクセスが正常に完了した事を示します。
 . Board Health Interrupt Status Register の BHM_SWACCEND ビットに "1"を書き込むと、BHM_SWACCEND ビットをクリアできます。
-ソフトウェア指示によるセンサーデバイスのレジスタ書き込み中に、I2C アクセスのエラーが発生した場合は、BHM Interrupt Status Register の BHM_SWACCERR ビットに "1"にセットされ、センサーデバイスへの I2C アクセスは停止します。
+ソフトウェア指示によるセンサーデバイスのレジスタ書き込み中に I2C アクセスエラーが発生した場合、BHM Interrupt Status Register の BHM_SWACCERR ビットが "1" にセットされ、センサーデバイスへの I2C アクセスは停止します。
 ソフトウェア指示によりセンサーデバイスのレジスタからデータを読み出すためのレジスタアクセスフローを以下に示します。
 
 .ソフトウェア指示によるセンサーデバイスからのレジスタ読み出しフロー
@@ -433,7 +433,7 @@ Flight Software は、起動時にこのレジスタを読み出す事で、ハ�
 System Monitor Interrupt Status Register は、System Monitor の割り込みステータスレジスタです。
 それぞれのビットは"1"をセットすると、割り込みをクリアできます。
 
-SEM Controller の異常を示すビット (bit 9、bit 10、bit 11)は、"1"をセットすると割り込みをクリアできますが、SEM Controller の異常が取り除かれるわけではないため、システムの再起動が必要があります。
+SEM Controller の異常を示すビット (bit 9、bit 10、bit 11) は、"1" を書き込むと割り込みをクリアできます。ただし、SEM Controller の異常自体は解消されないため、システムの再起動が必要です。
 
 .System Monitor Interrupt Status Registerビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -530,7 +530,7 @@ SEM Error Correction Count Register は、SEM Controller が行ったエラー�
 === SEM Heartbeat Timeout Register (Offset 0x0048)
 
 SEM Heartbeat Timeout Register は SEM Controller が出力する Heartbeat 信号の Timeout 時間を設定するレジスタです。
-AMD (旧 Xilinx) の SEM Controller (v4.1)では、Heartbeat 信号のアサート間隔は 150 クロックと規定されており、本レジスタの値は修正する必要はありません。
+AMD (旧 Xilinx) の SEM Controller (v4.1) では、Heartbeat 信号のアサート間隔が 150 クロックと規定されています。そのため、本レジスタ値の変更は不要です。
 
 このレジスタは Power On Reset のみでリセットされ、システムリセットでは初期化が行われません。
 そのため、Bootloader から Flight Software に切り替わる時にはリセットされません。

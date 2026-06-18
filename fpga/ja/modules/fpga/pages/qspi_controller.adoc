@@ -97,7 +97,7 @@ SPI デバイスへのデータ送信は TX FIFO を介し行います。
 
 SPI デバイスにデータを送信する場合、QSPI TX Data Register の SPITXDATA フィールドに書き込みを行います。
 このレジスタにデータを書き込むと、書き込みデータは TX FIFO に格納されます。 TX FIFO は送信データを最大 16 Byte 格納できます。
-TX FIFO に格納されたデータは、書き込まれた順番ですぐに SPI デバイスに送信されます。
+TX FIFO に格納されたデータは、書き込まれた順番ですぐに SPI デバイスへ送信されます。
 
 .QSPI TX Data Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]
@@ -123,7 +123,7 @@ RX FIFO に格納されたデータを読み出す場合、QSPI RX Data Register
 データは SPI デバイスから出力された順に読み出されます。
 
 QSPI Data Capture Mode Setting Register の DTCAPT ビットが"1" にセットされている時、SPIRXDATA フィールドの書き込み時だけではなく、QSPI TX Data Register の書き込み時も、RX FIFO にデータが格納されます。
-この時 RX FIFO に格納されているデータは SPITXDATA に書き込んだデータ (SPI に出力されているデータ)となります。
+このとき RX FIFO 内のデータは、SPITXDATA へ書き込んだデータ、つまり SPI 出力データです。
 
 SPI デバイスが要求するダミーサイクルは、このレジスタに書き込みを行うことによって、SPI クロックを出力させ生成します。
 
@@ -363,7 +363,7 @@ D::
   続けて、QSPI RX Data Register に 4 Byte 分の書き込みを行います。
   この操作により、8 Cycle のダミーサイクル区間で IO 信号を入力モードにして SPI クロックを駆動します。
 E::
-  QSPI RX Data Register の読み出しを 4 Byte 分行い、ダミーサイクル区間に RX FIFO に格納されたデータの読み出しを行います。
+  QSPI RX Data Register を 4 Byte 分読み出し、ダミーサイクル区間で RX FIFO に格納されたデータを読み出します。
   ダミーサイクル区間に格納されたデータは全て無効なデータであるため破棄してください。
   4 Byte 分全ての無効データの読み出しを行った後に、 QSPI RX Data Register に書き込みを行い Flash Memory からの Read データを RX FIFO に格納します。
   受信データは QSPI RX Data Register を読み出すことにより受信順に取得されます。

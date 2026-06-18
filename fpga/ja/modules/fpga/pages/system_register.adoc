@@ -37,7 +37,7 @@ Code Memory Select Register は CPU の Instruction code が格納されてい�
 CPU によって、ITCMEN ビットが "0"に書き換えられると、メモリ空間のアドレス 0x00000000 に HRMEM がマッピングされます。
 
 ITCMEN ビットの設定値が変更された時、システム全体にリセットが発行されます。
-ITCMEN ビットの変更は、ITCM に書き込まれた Boot 用のソフトウェアから HRMEM に書き込まれたメインのソフトウェアに遷移する時に 1 度だけ制御する事を想定しています。
+ITCMEN ビットは、ITCM 上の Boot 用ソフトウェアから HRMEM 上のメインソフトウェアへ遷移する際に制御します。この制御は、起動時に 1 度だけ実行することを想定しています。
 
 .Code Memory Select Register ビットフィールド
 [cols="1,3,3,12,1",options="header",]

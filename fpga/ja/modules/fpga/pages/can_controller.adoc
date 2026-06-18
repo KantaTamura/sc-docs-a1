@@ -1114,7 +1114,7 @@ TS1、TS2 フィールドに Tq サイクル数を設定します。 Sync Segmen
 2 の間で行われるため、Time segment 1 の時間と Time segment
 2 の時間の比率によりサンプリングポイントを調整します。
 +
-例として、TQPSET[15:0]=0x0003、TS1[3:0]=0x5、TS2[2:0]=0x2 にレジスタ設定した時に生成されるビットタイミングを以下に示します。
+以下は、TQPSET[15:0]=0x0003、TS1[3:0]=0x5、TS2[2:0]=0x2 のレジスタ設定例で生成されるビットタイミングです。
 +
 .ビットタイミング生成
 image::can_gen_bit_timing.png[can_gen_bit_timing]
@@ -1226,13 +1226,12 @@ TX_FIFO 格納位置の_ Entry を行い、Priority 検索を終了します。
 B の読み出し値より大きかった場合は、B で読み出したデータの 1 つ下の優先度の送信メッセージの
 IDR Field のデータを TX
 FIFO から読み出し、A の読み出し値と比較します。
-この動作を、A の値の方が小さい比較結果が得られるか、Priority 管理テーブルに Entry されている全てのデータとの比較が終わるまで繰り返し行います。
+この動作は、A の値のほうが小さいことを確認するか、Priority 管理テーブル内のすべてのデータとの比較を完了するまで繰り返します。
 +
-CAN バスには、メッセージの送信を開始する時点で、Priority 管理テーブルに
-Entry されている高優先の送信メッセージから順に TX
-FIFO から読み出され送信されます。 但し、TX High Priority
-Buffer に送信メッセージが格納されている場合は、TX High Priority
-Buffer の格納メッセージを最優先で送信します。
+メッセージの送信開始時には、Priority 管理テーブルに Entry されている送信メッセージのうち、
+優先度の高いものから順に TX FIFO を読み出し、CAN バスへ送信します。
+ただし、TX High Priority Buffer に送信メッセージが格納されている場合は、
+TX High Priority Buffer の格納メッセージを最優先で送信します。
 
 === TX High Priority Bufferを使用するフレーム送信操作手順例
 
